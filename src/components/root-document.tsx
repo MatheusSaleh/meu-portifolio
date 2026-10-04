@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono, Rubik } from "next/font/google";
 import type { ReactNode } from "react";
+import { siteUrl } from "@/content/shared";
 import type { Content } from "@/content/types";
 
 const rubik = Rubik({
@@ -74,16 +75,27 @@ const MATERIAL_SYMBOLS = [
 
 const materialSymbolsHref = `https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=${MATERIAL_SYMBOLS.join(",")}&display=block`;
 
-export function buildMetadata({ meta }: Content): Metadata {
+export function buildMetadata({ meta, locale }: Content): Metadata {
+  const path = locale === "en" ? "/en" : "/";
+  const image = { url: "/og-image.png", width: 2400, height: 1254, alt: "Matheus Saleh — Full Stack Developer" };
   return {
+    metadataBase: new URL(siteUrl),
     title: meta.title,
     description: meta.description,
+    alternates: {
+      canonical: path,
+      languages: { "pt-BR": "/", en: "/en", "x-default": "/" },
+    },
     openGraph: {
       title: meta.title,
       description: meta.ogDescription,
+      url: path,
+      siteName: "Matheus Saleh",
       locale: meta.ogLocale,
       type: "website",
+      images: [image],
     },
+    twitter: { card: "summary_large_image", title: meta.title, description: meta.ogDescription, images: [image] },
   };
 }
 
