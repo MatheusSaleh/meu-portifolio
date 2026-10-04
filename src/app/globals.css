@@ -1,0 +1,260 @@
+@import "tailwindcss";
+
+/*
+ * Design system "Voxel Telemetry Sandbox" (projeto Stitch "Voxel Developer Portfolio").
+ * Modo escuro de alto contraste, raio zero e profundidade por chanfros ortogonais.
+ */
+@theme {
+  /* Paleta Material 3 gerada pelo Stitch (seed #5c8e32) */
+  --color-background: #13131b;
+  --color-on-background: #e4e1ee;
+  --color-surface: #13131b;
+  --color-surface-dim: #13131b;
+  --color-surface-bright: #393842;
+  --color-surface-container-lowest: #0d0d16;
+  --color-surface-container-low: #1b1b24;
+  --color-surface-container: #1f1f28;
+  --color-surface-container-high: #292933;
+  --color-surface-container-highest: #34343e;
+  --color-surface-variant: #34343e;
+  --color-surface-tint: #9fd671;
+  --color-on-surface: #e4e1ee;
+  --color-on-surface-variant: #c2c9b7;
+  --color-inverse-surface: #e4e1ee;
+  --color-inverse-on-surface: #302f39;
+  --color-outline: #8c9382;
+  --color-outline-variant: #42493b;
+
+  --color-primary: #9fd671;
+  --color-on-primary: #193700;
+  --color-primary-container: #6b9e40;
+  --color-on-primary-container: #153000;
+  --color-inverse-primary: #3b6a0f;
+  --color-primary-fixed: #baf38a;
+  --color-primary-fixed-dim: #9fd671;
+  --color-on-primary-fixed: #0c2000;
+  --color-on-primary-fixed-variant: #285000;
+
+  --color-secondary: #43e6ed;
+  --color-on-secondary: #003739;
+  --color-secondary-container: #00cad1;
+  --color-on-secondary-container: #005053;
+  --color-secondary-fixed: #5bf8ff;
+  --color-secondary-fixed-dim: #30dbe2;
+  --color-on-secondary-fixed: #002021;
+  --color-on-secondary-fixed-variant: #004f52;
+
+  --color-tertiary: #edbd9a;
+  --color-on-tertiary: #472911;
+  --color-tertiary-container: #b38868;
+  --color-on-tertiary-container: #3f230b;
+  --color-tertiary-fixed: #ffdcc4;
+  --color-tertiary-fixed-dim: #edbd9a;
+  --color-on-tertiary-fixed: #2e1501;
+  --color-on-tertiary-fixed-variant: #613f25;
+
+  --color-error: #ffb4ab;
+  --color-on-error: #690005;
+  --color-error-container: #93000a;
+  --color-on-error-container: #ffdad6;
+
+  /* Chanfros voxel (luz/sombra ortogonais) */
+  --color-bevel-shadow: #090a0f;
+  --color-bevel-light: #4d4c4d;
+  --color-stone-light: #706f70;
+  --color-stone-dark: #1c1c1d;
+  --color-xp-light: #aaff66;
+  --color-xp-dark: #4a9c1c;
+
+  /* Materiais do mundo */
+  --color-legendary: #b545ff;
+  --color-legendary-container: #38104d;
+  --color-on-legendary: #e08aff;
+  --color-wood: #4a2e18;
+  --color-wood-dark: #2b180a;
+  --color-wood-light: #8c5831;
+  --color-wood-plank: #6b4526;
+  --color-grass-light: #6b9e40;
+  --color-grass-dark: #4a7725;
+  --color-dirt-light: #875c39;
+  --color-dirt-dark: #5c3b20;
+  --color-sky-night: #18233c;
+  --color-sky-night-deep: #101018;
+  --color-sky-day: #78a7ff;
+  --color-sky-day-mid: #92baff;
+  --color-sky-day-low: #b4d2ff;
+  --color-skin: #e0ac69;
+  --color-hair: #382313;
+  --color-hoodie: #1f3b5c;
+  --color-jeans: #162231;
+  --color-tooltip: #100c1c;
+  --color-tooltip-border: #281c40;
+  --color-lore: #a0a0b0;
+  --color-placeholder: #9ca3af;
+
+  /* Tipografia */
+  --text-headline-xl: 48px;
+  --text-headline-xl--line-height: 56px;
+  --text-headline-xl--letter-spacing: -0.02em;
+  --text-headline-xl--font-weight: 900;
+  --text-headline-xl-mobile: 32px;
+  --text-headline-xl-mobile--line-height: 40px;
+  --text-headline-xl-mobile--letter-spacing: -0.01em;
+  --text-headline-xl-mobile--font-weight: 900;
+  --text-headline-lg: 32px;
+  --text-headline-lg--line-height: 40px;
+  --text-headline-lg--letter-spacing: -0.01em;
+  --text-headline-lg--font-weight: 800;
+  --text-headline-lg-mobile: 24px;
+  --text-headline-lg-mobile--line-height: 32px;
+  --text-headline-lg-mobile--letter-spacing: 0;
+  --text-headline-lg-mobile--font-weight: 800;
+  --text-headline-md: 24px;
+  --text-headline-md--line-height: 32px;
+  --text-headline-md--letter-spacing: 0;
+  --text-headline-md--font-weight: 700;
+  --text-headline-sm: 18px;
+  --text-headline-sm--line-height: 24px;
+  --text-headline-sm--letter-spacing: 0.02em;
+  --text-headline-sm--font-weight: 700;
+  --text-body-lg: 16px;
+  --text-body-lg--line-height: 26px;
+  --text-body-lg--letter-spacing: -0.01em;
+  --text-body-lg--font-weight: 400;
+  --text-body-md: 14px;
+  --text-body-md--line-height: 22px;
+  --text-body-md--letter-spacing: 0;
+  --text-body-md--font-weight: 400;
+  --text-body-sm: 12px;
+  --text-body-sm--line-height: 18px;
+  --text-body-sm--letter-spacing: 0.01em;
+  --text-body-sm--font-weight: 400;
+  --text-label-lg: 14px;
+  --text-label-lg--line-height: 18px;
+  --text-label-lg--letter-spacing: 0.05em;
+  --text-label-lg--font-weight: 700;
+  --text-label-md: 12px;
+  --text-label-md--line-height: 16px;
+  --text-label-md--letter-spacing: 0.08em;
+  --text-label-md--font-weight: 600;
+  --text-label-sm: 10px;
+  --text-label-sm--line-height: 14px;
+  --text-label-sm--letter-spacing: 0.1em;
+  --text-label-sm--font-weight: 600;
+
+  /* Espaçamento em grade de 4/8px */
+  --spacing-space-xs: 0.25rem;
+  --spacing-space-sm: 0.5rem;
+  --spacing-space-md: 1rem;
+  --spacing-space-lg: 1.5rem;
+  --spacing-space-xl: 2.5rem;
+  --spacing-gutter: 1rem;
+  --spacing-gutter-tablet: 1.5rem;
+  --spacing-gutter-desktop: 2rem;
+  --spacing-margin: 1rem;
+  --spacing-margin-tablet: 2rem;
+  --spacing-margin-desktop: 4rem;
+}
+
+@theme inline {
+  --font-headline: var(--font-rubik), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-jetbrains-mono), ui-monospace, monospace;
+}
+
+/* Camada 1 — reentrância escavada (slots, inputs, calhas) */
+@utility voxel-slot-inset {
+  box-shadow:
+    inset 3px 3px 0 var(--color-bevel-shadow),
+    inset -3px -3px 0 var(--color-bevel-light);
+}
+
+/* Camada 3 — bloco elevado de pedra chanfrada */
+@utility voxel-btn-bevel {
+  box-shadow:
+    inset 3px 3px 0 var(--color-stone-light),
+    inset -3px -3px 0 var(--color-stone-dark);
+}
+
+/* Seleção ativa em diamante */
+@utility voxel-diamond-active {
+  box-shadow:
+    inset 3px 3px 0 var(--color-secondary-fixed),
+    inset -3px -3px 0 var(--color-on-secondary-container),
+    0 0 0 2px var(--color-secondary);
+}
+
+@utility xp-bar-bevel {
+  box-shadow:
+    inset 2px 2px 0 var(--color-xp-light),
+    inset -2px -2px 0 var(--color-xp-dark);
+}
+
+@utility pixel-text-shadow {
+  text-shadow: 2px 2px 0 #000;
+}
+
+@utility grass-stripes {
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--color-grass-light) 0 16px,
+    var(--color-grass-dark) 16px 32px
+  );
+}
+
+@utility dirt-stripes {
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--color-dirt-light) 0 20px,
+    var(--color-dirt-dark) 20px 40px
+  );
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Trava o scroll da página enquanto o modal de item está aberto. */
+  html:has(dialog[open]) {
+    overflow: hidden;
+  }
+
+  body {
+    overscroll-behavior: none;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+@layer components {
+  /* Glifos do Material Symbols Outlined (mesma fonte de ícones usada no Stitch). */
+  .icon {
+    font-family: "Material Symbols Outlined";
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    font-feature-settings: "liga";
+    -webkit-font-smoothing: antialiased;
+    user-select: none;
+  }
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
