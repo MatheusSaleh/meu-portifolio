@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono, Rubik } from "next/font/google";
 import type { ReactNode } from "react";
 import type { Content } from "@/content/types";
+import { Analytics } from "@vercel/analytics/next";
 
 const rubik = Rubik({
   variable: "--font-rubik",
@@ -105,6 +106,7 @@ export function RootDocument({ lang, children }: { lang: string; children: React
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="stylesheet" href={materialSymbolsHref} precedence="default" />
         {children}
+        <Analytics />
       </body>
     </html>
   );
