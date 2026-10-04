@@ -34,7 +34,7 @@ Mais telas: [jornada](docs/screenshots/jornada.png), [skills](docs/screenshots/s
 
 ## Como rodar
 
-Precisa de Node.js 20 ou mais recente.
+Precisa de Node.js 20.9 ou mais recente.
 
 ```bash
 npm install
