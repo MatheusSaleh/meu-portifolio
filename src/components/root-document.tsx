@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono, Rubik } from "next/font/google";
 import type { ReactNode } from "react";
+import { Analytics } from "@vercel/analytics/next";
 import { siteUrl } from "@/content/shared";
 import type { Content } from "@/content/types";
 
@@ -117,6 +118,7 @@ export function RootDocument({ lang, children }: { lang: string; children: React
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="stylesheet" href={materialSymbolsHref} precedence="default" />
         {children}
+        <Analytics />
       </body>
     </html>
   );
