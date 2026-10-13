@@ -3,6 +3,7 @@ import { TextLink } from "@/components/text-link";
 import {
   achievementStyles,
   annalsUrl,
+  clubeEnviosAppUrl,
   clubeEnviosLink,
   clubeEnviosUrl,
   craftingIngredients,
@@ -84,10 +85,10 @@ export function buildEn(stats: GithubStats): Content {
       toast: { title: "Thesis Top Grade", message: "Hemogestão approved with the top grade." },
     },
     {
-      title: "Certified App",
+      title: "Published Apps",
       description:
-        "Nuvemshop integration published on the platform's app store after the review required for shipping apps.",
-      toast: { title: "Certified App", message: "Live on the Nuvemshop App Store." },
+        "Published the Clube Envios app on Google Play and the Nuvemshop integration on the platform's app store, after its shipping app review.",
+      toast: { title: "Published Apps", message: "Google Play and the Nuvemshop App Store." },
     },
     {
       title: "Tech Lead",
@@ -356,7 +357,10 @@ export function buildEn(stats: GithubStats): Content {
             <>
               At {clubeEnviosLink}, I work on the merchant and admin dashboards, the quoting and tracking APIs,
               integrations with e-commerce platforms and carriers (Latam Cargo, J&amp;T Express), boleto billing through
-              the Banco Inter API and the customer app in React Native. I built the{" "}
+              the Banco Inter API and the React Native customer app, which I published on{" "}
+              <TextLink href={clubeEnviosAppUrl} className="font-bold text-secondary hover:text-secondary-fixed">
+                Google Play
+              </TextLink>. I built the{" "}
               <strong className="font-bold text-on-surface">Nuvemshop</strong> integration and took our app all the way to
               publication on the platform&apos;s app store, through its most demanding review, the one for shipping apps:
               joint validation with the Nuvemshop team, checkout rates within 5 seconds and LGPD webhooks. For{" "}
@@ -369,7 +373,7 @@ export function buildEn(stats: GithubStats): Content {
             { label: "PHP 8.X", className: "text-tertiary-fixed font-bold" },
             { label: "NUVEMSHOP-CERTIFIED APP", className: "text-secondary font-bold" },
             { label: "SHIPPING INTEGRATIONS", className: "text-secondary" },
-            { label: "REACT NATIVE", className: "text-secondary-fixed" },
+            { label: "GOOGLE PLAY APP", className: "text-secondary-fixed font-bold" },
             { label: "WEBHOOKS", className: "text-tertiary" },
           ],
         },

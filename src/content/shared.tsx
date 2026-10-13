@@ -17,6 +17,8 @@ export const siteUrl = "https://www.matheussaleh.com.br";
 
 export const clubeEnviosUrl = "https://clubeenvios.com.br/";
 
+export const clubeEnviosAppUrl = "https://play.google.com/store/apps/details?id=com.clubeenvios.app";
+
 export const annalsUrl = "https://www.fema.edu.br/wp-content/uploads/2024/05/FEMAForumanais_23-24.pdf#page=46";
 
 /**

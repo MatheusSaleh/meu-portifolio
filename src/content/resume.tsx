@@ -54,7 +54,7 @@ export const resumePt: ResumeContent = {
         "Integrações com plataformas de e-commerce e ERPs (Shopify, Nuvemshop, Tray, Yampi, Bagy, Bling, Tiny, Irroba) e transportadoras (Correios, J&T Express, Latam Cargo).",
         "Implementei a integração com a Nuvemshop e publiquei o app na loja da plataforma, passando pela homologação de apps de frete (cotação no checkout em até 5 segundos e webhooks de LGPD).",
         "Logística reversa: fiz o estudo da API dos Correios que guiou o desenvolvimento.",
-        "Boletos e cobranças pela API do Banco Inter; app do cliente em React Native.",
+        "Boletos e cobranças pela API do Banco Inter; app do cliente em React Native, publicado por mim na Google Play.",
       ],
     },
     {
@@ -161,7 +161,7 @@ export const resumeEn: ResumeContent = {
         "Integrations with e-commerce platforms and ERPs (Shopify, Nuvemshop, Tray, Yampi, Bagy, Bling, Tiny, Irroba) and carriers (Correios, J&T Express, Latam Cargo).",
         "Built the Nuvemshop integration and published the app on the platform's app store, passing the shipping app review (checkout rates within 5 seconds and LGPD webhooks).",
         "Reverse logistics: did the Correios API research that guided the development.",
-        "Boleto billing through the Banco Inter API; customer app in React Native.",
+        "Boleto billing through the Banco Inter API; React Native customer app, which I published on Google Play.",
       ],
     },
     {

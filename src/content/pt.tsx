@@ -4,6 +4,7 @@ import {
   achievementStyles,
   annalsUrl,
   articleTitle,
+  clubeEnviosAppUrl,
   clubeEnviosLink,
   clubeEnviosUrl,
   craftingIngredients,
@@ -84,10 +85,10 @@ export function buildPt(stats: GithubStats): Content {
       toast: { title: "TCC Nota Máxima", message: "Hemogestão aprovado com nota máxima." },
     },
     {
-      title: "App Homologado",
+      title: "Apps Publicados",
       description:
-        "Integração com a Nuvemshop publicada na loja de apps da plataforma, depois da homologação exigida para apps de frete.",
-      toast: { title: "App Homologado", message: "Publicado na Loja de Aplicativos da Nuvemshop." },
+        "Publicou o app do Clube Envios na Google Play e a integração com a Nuvemshop na loja da plataforma, depois da homologação de apps de frete.",
+      toast: { title: "Apps Publicados", message: "Google Play e Loja de Aplicativos da Nuvemshop." },
     },
     {
       title: "Líder Técnico",
@@ -355,7 +356,11 @@ export function buildPt(stats: GithubStats): Content {
             <>
               No ecossistema {clubeEnviosLink}, atuo no painel do lojista e do administrador, nas APIs de cotação e
               rastreio, nas integrações com e-commerces e transportadoras (Latam Cargo, J&amp;T Express), nos boletos e
-              cobranças pela API do Banco Inter e no app do cliente em React Native. Implementei a integração com a{" "}
+              cobranças pela API do Banco Inter e no app do cliente em React Native, que publiquei na{" "}
+              <TextLink href={clubeEnviosAppUrl} className="font-bold text-secondary hover:text-secondary-fixed">
+                Google Play
+              </TextLink>.
+              Implementei a integração com a{" "}
               <strong className="font-bold text-on-surface">Nuvemshop</strong> e levei nosso app até a publicação na loja
               da plataforma, passando pela homologação mais exigente dela, a de apps de frete: validação conjunta com o
               time da Nuvemshop, cotação no checkout em até 5 segundos e webhooks de LGPD. Na{" "}
@@ -368,7 +373,7 @@ export function buildPt(stats: GithubStats): Content {
             { label: "PHP 8.X", className: "text-tertiary-fixed font-bold" },
             { label: "APP HOMOLOGADO NUVEMSHOP", className: "text-secondary font-bold" },
             { label: "INTEGRAÇÕES DE FRETES", className: "text-secondary" },
-            { label: "REACT NATIVE", className: "text-secondary-fixed" },
+            { label: "APP NA GOOGLE PLAY", className: "text-secondary-fixed font-bold" },
             { label: "WEBHOOKS", className: "text-tertiary" },
           ],
         },
