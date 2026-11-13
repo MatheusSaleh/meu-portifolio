@@ -52,7 +52,7 @@ export function Portfolio({ content }: { content: Content }) {
         <ContactSection contact={content.contact} />
       </main>
       <SiteFooter footer={content.footer} />
-      <ExplorationWatcher sectionIds={content.nav.slots.map((slot) => slot.id)} />
+      <ExplorationWatcher sectionIds={content.nav.slots.filter((slot) => !slot.href).map((slot) => slot.id)} />
     </GameProvider>
   );
 }

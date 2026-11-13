@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef } from "react";
 import type { Content, Project } from "@/content/types";
 import { cx } from "@/lib/cx";
@@ -81,6 +82,15 @@ export function ProjectModal({ project, strings, onClose }: ProjectModalProps) {
                 {strings.close}
               </button>
             </form>
+            {project.caseStudy && (
+              <Link
+                href={project.caseStudy.href}
+                className="flex items-center gap-1 bg-secondary px-space-md py-1.5 text-label-md font-bold text-on-secondary uppercase voxel-btn-bevel"
+              >
+                <span>{project.caseStudy.label}</span>
+                <Icon name="photo_library" className="text-[16px]" />
+              </Link>
+            )}
             {project.details.links?.map((link) => (
               <a
                 key={link.href}

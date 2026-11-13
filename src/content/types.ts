@@ -1,9 +1,17 @@
+import type { StaticImageData } from "next/image";
 import type { ReactNode } from "react";
+import type { TechItem } from "@/components/tech-stack";
 import type { DayPhase } from "@/lib/day-phase";
 
 export type Locale = "pt" | "en";
 
-export type NavSlot = { slot: number; label: string; id: string };
+export type NavSlot = {
+  slot: number;
+  label: string;
+  id: string;
+  /** Slot que abre outra página em vez de rolar até uma seção da página inicial. */
+  href?: string;
+};
 
 export type Tag = { label: string; className: string };
 
@@ -62,6 +70,72 @@ export type Project = ProjectStyle & {
     /** Botões de código no modal; sem links, o modal mostra só "Fechar". */
     links?: Array<{ label: string; href: string }>;
   };
+  /** Página própria do projeto (estudo de caso com capturas de tela). */
+  caseStudy?: { href: string; label: string };
+};
+
+export type Screenshot = {
+  src: StaticImageData;
+  alt: string;
+  caption: string;
+  /** Captura em paisagem (tela larga): ocupa mais colunas na galeria. */
+  wide?: boolean;
+};
+
+export type CaseStudy = {
+  /** Tecnologias mostradas logo abaixo do título, com os seus ícones. */
+  stack: { label: string; items: TechItem[] };
+  slug: string;
+  href: string;
+  meta: { title: string; description: string };
+  /** Mesma página na outra língua. */
+  alternateHref: string;
+  back: { href: string; label: string };
+  number: string;
+  eyebrow: string;
+  title: string;
+  tagline: ReactNode;
+  cover: Screenshot;
+  /** Três capturas usadas no destaque da página de projetos. */
+  preview: Screenshot[];
+  facts: Array<{ label: string; value: ReactNode }>;
+  links: Array<{ label: string; href: string; icon: string }>;
+  problem: { title: string; body: ReactNode };
+  gallery: {
+    title: string;
+    description: string;
+    note: string;
+    groups: Array<{ title: string; icon: string; shots: Screenshot[] }>;
+    lightbox: { open: string; close: string; prev: string; next: string; counter: string };
+  };
+  features: {
+    title: string;
+    description: string;
+    items: Array<{ title: string; text: string; origin: string; icon: string }>;
+  };
+  architecture: {
+    title: string;
+    description: string;
+    layers: Array<{ name: string; subtitle: string; items: string[] }>;
+    link: string;
+  };
+  decisions: {
+    title: string;
+    headers: { decision: string; why: string; cost: string };
+    items: Array<{ decision: string; why: string; cost: string }>;
+  };
+  evolution: {
+    title: string;
+    before: { title: string; items: string[] };
+    after: { title: string; items: string[] };
+  };
+  quality: {
+    title: string;
+    stats: Array<{ value: string; label: string }>;
+    text: string;
+  };
+  limits: { title: string; items: string[] };
+  cta: { title: string; text: string; projects: string };
 };
 
 export type SkillTree = {
@@ -177,6 +251,20 @@ export type Content = {
     filters: ProjectFilter[];
     items: Project[];
     modal: { close: string; closeAria: string; stack: string };
+    /** Link da seção da página inicial para a página só de projetos. */
+    viewAll: string;
+    page: {
+      href: string;
+      alternateHref: string;
+      meta: { title: string; description: string };
+      back: { href: string; label: string };
+      eyebrow: string;
+      title: string;
+      description: string;
+      count: string;
+      stack: string;
+      featured: { kicker: string; cta: string };
+    };
   };
   skills: {
     eyebrow: string;

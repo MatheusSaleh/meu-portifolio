@@ -23,6 +23,7 @@ import {
   tccTitle,
   tccUrl,
 } from "./shared";
+import { bancoDeSangue, bancoDeSangueRepo } from "./case-studies/banco-de-sangue";
 import type { Achievement, Content, GithubStats, MilCodeStrings } from "./types";
 
 const milcodeStrings: MilCodeStrings = {
@@ -148,6 +149,7 @@ export function buildPt(stats: GithubStats): Content {
         { slot: 5, label: "Status", id: "status" },
         { slot: 6, label: "Conquistas", id: "conquistas" },
         { slot: 7, label: "Contato", id: "contato" },
+        { slot: 8, label: "Sangue", id: "banco-de-sangue", href: bancoDeSangue.pt.href },
       ],
     },
     header: {
@@ -390,6 +392,24 @@ export function buildPt(stats: GithubStats): Content {
         { id: "crafting", label: "CRAFTING", ...projectFilterStyles.crafting },
       ],
       modal: { close: "Fechar", closeAria: "Fechar", stack: "Stack de Encantamentos:" },
+      viewAll: "Abrir inventário completo",
+      page: {
+        href: "/projetos",
+        alternateHref: "/en/projects",
+        meta: {
+          title: "Projetos | Matheus Saleh",
+          description:
+            "Todos os projetos de Matheus Saleh: sistemas em produção, microsserviços, APIs, apps mobile e pesquisa acadêmica, com stack e links para o código.",
+        },
+        back: { href: "/#projetos", label: "Voltar ao spawn" },
+        eyebrow: "Baú aberto · todos os itens",
+        title: "Inventário de Projetos",
+        description:
+          "Cada projeto com a história completa, a stack usada e os links para o código. Os que têm estudo de caso trazem capturas de tela e decisões técnicas.",
+        count: "{total} itens no baú",
+        stack: "Stack",
+        featured: { kicker: "Estudo de caso em destaque", cta: "Ver estudo de caso e prints" },
+      },
       items: [
         {
           id: "tgops",
@@ -533,19 +553,32 @@ export function buildPt(stats: GithubStats): Content {
           id: "bancosangue",
           ...projectStyles.bancoSangue,
           name: "App Banco Sangue",
-          caption: "Flutter & Dart",
+          caption: "Flutter + API TypeScript",
           summary:
-            "Aplicativo mobile gamificado para fidelização de doadores de sangue e conexão em tempo real com hemocentros.",
+            "App para doadores com próxima data apta para doar, histórico, quiz e assistente com IA. Iniciação Científica (2023) modernizada em 2026.",
           footer: "PESQUISA & MOBILE",
           rarity: "INCOMUM",
           details: {
-            title: "App Banco de Sangue Gamificado",
+            title: "App Banco de Sangue",
             rarity: "Raridade: Incomum",
-            description:
-              "Projeto de Iniciação Científica pioneiro na FEMA com foco em aumentar a frequência de doadores de sangue por meio de recompensas lúdicas e notificações em tempo real.",
-            techs: ["Flutter", "Dart", "Firebase", "Gamificação"],
-            links: [{ label: "Inspecionar Código", href: profile.github }],
+            description: (
+              <>
+                <p>
+                  Projeto de Iniciação Científica na FEMA (2023), em dupla com {gabrielLink}, modernizado em 2026 como um
+                  monorepo com app Flutter e API própria em TypeScript.
+                </p>
+                <p>
+                  O app calcula a próxima data apta para doar (intervalo e limite anual do Ministério da Saúde), guarda o
+                  histórico de doações e traz guia, compatibilidade ABO/Rh, questionários gerados por IA e um assistente
+                  de dúvidas, com cota diária por conta controlada pela API (Fastify, Zod, Drizzle e SQLite). São 145
+                  testes automatizados e CI no GitHub Actions.
+                </p>
+              </>
+            ),
+            techs: ["Flutter", "Dart", "TypeScript", "Fastify", "Zod", "SQLite", "Drizzle", "Venice AI", "GitHub Actions"],
+            links: [{ label: "Inspecionar Código", href: bancoDeSangueRepo }],
           },
+          caseStudy: { href: bancoDeSangue.pt.href, label: "Ver prints e detalhes" },
         },
         {
           id: "funeraria",

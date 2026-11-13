@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import type { Content, Project, ProjectCategory } from "@/content/types";
 import { cx } from "@/lib/cx";
@@ -75,6 +76,17 @@ export function ProjectsSection({ projects }: Pick<Content, "projects">) {
           </li>
         ))}
       </ul>
+
+      <div className="mt-space-lg flex justify-center">
+        <Link
+          href={projects.page.href}
+          className="flex items-center gap-2 border-2 border-surface-container-lowest bg-primary px-space-md py-2 text-label-md font-bold text-on-primary uppercase voxel-btn-bevel active:translate-y-0.5"
+        >
+          <Icon name="inventory_2" className="text-[18px]" />
+          <span>{projects.viewAll}</span>
+          <Icon name="arrow_forward" className="text-[18px]" />
+        </Link>
+      </div>
 
       <ProjectModal
         project={openProject}

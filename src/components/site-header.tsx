@@ -8,14 +8,19 @@ import { pageGutter } from "@/lib/layout";
 import { useGame } from "./game-provider";
 import { Icon } from "./icon";
 
-type SiteHeaderProps = Pick<Content, "nav" | "header" | "languageSwitch" | "resume">;
+type SiteHeaderProps = Pick<Content, "nav" | "header" | "languageSwitch" | "resume"> & {
+  /** Fora da página inicial, a hotbar aponta para as seções dela (ex.: "/" ou "/en"). */
+  homeHref?: string;
+  /** Slot destacado em páginas sem as seções da hotbar. */
+  currentSlot?: number;
+};
 
 const squareButton =
   "flex size-10 shrink-0 items-center justify-center border-2 border-surface-container-lowest voxel-btn-bevel active:translate-y-0.5";
 
-export function SiteHeader({ nav, header, languageSwitch, resume }: SiteHeaderProps) {
+export function SiteHeader({ nav, header, languageSwitch, resume, homeHref = "", currentSlot }: SiteHeaderProps) {
   const { sfxEnabled, toggleSfx, playSlot } = useGame();
-  const [activeSlot, setActiveSlot] = useState<number>(nav.slots[0].slot);
+  const [activeSlot, setActiveSlot] = useState<number>(currentSlot ?? nav.slots[0].slot);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuButton = useRef<HTMLButtonElement>(null);
   const menuPanel = useRef<HTMLDivElement>(null);
@@ -78,19 +83,22 @@ export function SiteHeader({ nav, header, languageSwitch, resume }: SiteHeaderPr
           aria-label={nav.ariaLabel}
           className="hidden items-center gap-space-xs border-2 border-surface-container-highest bg-surface-container-low p-1 xl:flex"
         >
-          {nav.slots.map(({ slot, label, id }) => {
+          {nav.slots.map(({ slot, label, id, href }) => {
             const active = slot === activeSlot;
             return (
               <a
                 key={id}
-                href={`#${id}`}
-                aria-current={active ? "location" : undefined}
+                href={href ?? `${homeHref}#${id}`}
+                aria-current={active ? (href ? "page" : "location") : undefined}
                 onClick={() => selectSlot(slot)}
                 className={cx(
                   "relative flex h-12 items-center justify-center px-3 text-label-md uppercase transition-none active:translate-y-0.5",
                   active
                     ? "border-2 border-secondary bg-surface-container-high text-secondary voxel-diamond-active"
-                    : "bg-surface-container text-on-surface-variant voxel-slot-inset hover:text-on-surface",
+                    : cx(
+                        "bg-surface-container voxel-slot-inset",
+                        href ? "text-error hover:text-on-error-container" : "text-on-surface-variant hover:text-on-surface",
+                      ),
                 )}
               >
                 <span className="absolute top-0.5 left-1 text-label-sm font-bold text-tertiary-fixed pixel-text-shadow">
@@ -152,19 +160,19 @@ export function SiteHeader({ nav, header, languageSwitch, resume }: SiteHeaderPr
           </span>
           <nav aria-label={nav.ariaLabel}>
             <ul className="grid grid-cols-2 gap-1.5 bg-surface-container-low p-1.5 voxel-slot-inset sm:grid-cols-4">
-              {nav.slots.map(({ slot, label, id }) => {
+              {nav.slots.map(({ slot, label, id, href }) => {
                 const active = slot === activeSlot;
                 return (
                   <li key={id}>
                     <a
-                      href={`#${id}`}
-                      aria-current={active ? "location" : undefined}
+                      href={href ?? `${homeHref}#${id}`}
+                      aria-current={active ? (href ? "page" : "location") : undefined}
                       onClick={() => selectSlot(slot)}
                       className={cx(
                         "relative flex h-14 items-center justify-center px-2 text-label-md uppercase",
                         active
                           ? "border-2 border-secondary bg-surface-container-high text-secondary voxel-diamond-active"
-                          : "bg-surface-container text-on-surface-variant voxel-slot-inset",
+                          : cx("bg-surface-container voxel-slot-inset", href ? "text-error" : "text-on-surface-variant"),
                       )}
                     >
                       <span className="absolute top-0.5 left-1 text-label-sm font-bold text-tertiary-fixed pixel-text-shadow">

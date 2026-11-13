@@ -23,14 +23,18 @@ const inter = Inter({
 
 // Ícones usados no site. O Google Fonts entrega só esses glifos (a lista precisa estar em ordem alfabética).
 const MATERIAL_SYMBOLS = [
+  "arrow_back",
   "arrow_forward",
   "arrow_outward",
   "article",
+  "auto_awesome",
   "badge",
   "bedtime",
   "bloodtype",
   "bug_report",
   "build",
+  "chevron_left",
+  "chevron_right",
   "close",
   "code",
   "coffee",
@@ -41,8 +45,10 @@ const MATERIAL_SYMBOLS = [
   "explore",
   "favorite",
   "folder_zip",
+  "forum",
   "groups",
   "handshake",
+  "history",
   "hub",
   "inventory_2",
   "lan",
@@ -55,6 +61,7 @@ const MATERIAL_SYMBOLS = [
   "military_tech",
   "open_in_new",
   "person",
+  "photo_library",
   "play_arrow",
   "psychology",
   "restart_alt",
@@ -72,13 +79,16 @@ const MATERIAL_SYMBOLS = [
   "wb_sunny",
   "wb_twilight",
   "workspace_premium",
+  "zoom_in",
 ];
 
 const materialSymbolsHref = `https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=${MATERIAL_SYMBOLS.join(",")}&display=block`;
 
+const ogImage = { url: "/og-image.png", width: 2400, height: 1254, alt: "Matheus Saleh — Full Stack Developer" };
+
 export function buildMetadata({ meta, locale }: Content): Metadata {
   const path = locale === "en" ? "/en" : "/";
-  const image = { url: "/og-image.png", width: 2400, height: 1254, alt: "Matheus Saleh — Full Stack Developer" };
+  const image = ogImage;
   return {
     metadataBase: new URL(siteUrl),
     title: meta.title,
@@ -97,6 +107,29 @@ export function buildMetadata({ meta, locale }: Content): Metadata {
       images: [image],
     },
     twitter: { card: "summary_large_image", title: meta.title, description: meta.ogDescription, images: [image] },
+  };
+}
+
+/** Metadados de páginas internas (projetos, estudos de caso), com as versões nas duas línguas. */
+export function buildPageMetadata({
+  title,
+  description,
+  path,
+  languages,
+  locale,
+}: {
+  title: string;
+  description: string;
+  path: string;
+  languages: { pt: string; en: string };
+  locale: string;
+}): Metadata {
+  return {
+    title,
+    description,
+    alternates: { canonical: path, languages: { "pt-BR": languages.pt, en: languages.en, "x-default": languages.pt } },
+    openGraph: { title, description, url: path, siteName: "Matheus Saleh", locale, type: "website", images: [ogImage] },
+    twitter: { card: "summary_large_image", title, description, images: [ogImage] },
   };
 }
 

@@ -21,6 +21,7 @@ import {
   skillTreeStyles,
   tccUrl,
 } from "./shared";
+import { bancoDeSangue, bancoDeSangueRepo } from "./case-studies/banco-de-sangue";
 import type { Achievement, Content, GithubStats, MilCodeStrings } from "./types";
 
 const tccTitleEn = "Gamified Blood Donation System: Web and Mobile Platform for Blood Centers";
@@ -147,6 +148,7 @@ export function buildEn(stats: GithubStats): Content {
         { slot: 5, label: "Status", id: "status" },
         { slot: 6, label: "Achievements", id: "conquistas" },
         { slot: 7, label: "Contact", id: "contato" },
+        { slot: 8, label: "Blood", id: "banco-de-sangue", href: bancoDeSangue.en.href },
       ],
     },
     header: {
@@ -390,6 +392,24 @@ export function buildEn(stats: GithubStats): Content {
         { id: "crafting", label: "CRAFTING", ...projectFilterStyles.crafting },
       ],
       modal: { close: "Close", closeAria: "Close", stack: "Enchantment Stack:" },
+      viewAll: "Open the full inventory",
+      page: {
+        href: "/en/projects",
+        alternateHref: "/projetos",
+        meta: {
+          title: "Projects | Matheus Saleh",
+          description:
+            "Every project by Matheus Saleh: production systems, microservices, APIs, mobile apps and academic research, with stack and links to the code.",
+        },
+        back: { href: "/en#projetos", label: "Back to spawn" },
+        eyebrow: "Chest open · every item",
+        title: "Project Inventory",
+        description:
+          "Each project with the full story, the stack it uses and links to the code. The ones with a case study include screenshots and technical decisions.",
+        count: "{total} items in the chest",
+        stack: "Stack",
+        featured: { kicker: "Featured case study", cta: "See the case study and screenshots" },
+      },
       items: [
         {
           id: "tgops",
@@ -533,18 +553,32 @@ export function buildEn(stats: GithubStats): Content {
           id: "bancosangue",
           ...projectStyles.bancoSangue,
           name: "Blood Bank App",
-          caption: "Flutter & Dart",
-          summary: "Gamified mobile app to retain blood donors and connect them with blood centers in real time.",
+          caption: "Flutter + TypeScript API",
+          summary:
+            "App for blood donors with the next eligible date, history, quiz and an AI assistant. Research project (2023) rebuilt in 2026.",
           footer: "RESEARCH & MOBILE",
           rarity: "UNCOMMON",
           details: {
-            title: "Gamified Blood Bank App",
+            title: "Blood Bank App",
             rarity: "Rarity: Uncommon",
-            description:
-              "Pioneering undergraduate research project at FEMA focused on raising donation frequency through playful rewards and real-time notifications.",
-            techs: ["Flutter", "Dart", "Firebase", "Gamification"],
-            links: [{ label: "View Code", href: profile.github }],
+            description: (
+              <>
+                <p>
+                  Undergraduate research project at FEMA (2023), built with {gabrielLink}, and rebuilt in 2026 as a
+                  monorepo with a Flutter app and a custom TypeScript API.
+                </p>
+                <p>
+                  The app works out the next date you can donate (Ministry of Health interval and yearly limit), keeps
+                  your donation history and offers a guide, ABO/Rh compatibility, AI-generated quizzes and a Q&amp;A
+                  assistant, with a per-account daily quota enforced by the API (Fastify, Zod, Drizzle and SQLite). It has
+                  145 automated tests and CI on GitHub Actions.
+                </p>
+              </>
+            ),
+            techs: ["Flutter", "Dart", "TypeScript", "Fastify", "Zod", "SQLite", "Drizzle", "Venice AI", "GitHub Actions"],
+            links: [{ label: "View Code", href: bancoDeSangueRepo }],
           },
+          caseStudy: { href: bancoDeSangue.en.href, label: "Screenshots and details" },
         },
         {
           id: "funeraria",
