@@ -22,6 +22,7 @@ import {
   tccUrl,
 } from "./shared";
 import { bancoDeSangue, bancoDeSangueRepo } from "./case-studies/banco-de-sangue";
+import { supremoMotorista, supremoMotoristaRepo } from "./supremo-motorista";
 import type { Achievement, Content, GithubStats, MilCodeStrings } from "./types";
 
 const tccTitleEn = "Gamified Blood Donation System: Web and Mobile Platform for Blood Centers";
@@ -706,6 +707,38 @@ export function buildEn(stats: GithubStats): Content {
               { label: "Java Code", href: repos.milcodeJava },
             ],
           },
+        },
+        {
+          id: "supremo-motorista",
+          ...projectStyles.supremo,
+          name: "Supremo Motorista",
+          caption: "3D browser game",
+          summary:
+            "Arcade driving game in a condensed Brasília, with car physics, real weather and a campaign. Playable right here on the site.",
+          footer: "THREE.JS + RAPIER",
+          rarity: "RARE",
+          details: {
+            title: "Supremo Motorista — 3D Game",
+            rarity: "Rarity: Rare",
+            description: (
+              <>
+                <p>
+                  An arcade driving satire set in Brasília: the player is Josué, chauffeur of the fictional Tribunal,
+                  rushing ministers across the city against the clock, with jumps, drifts, pursuers and a 10-day
+                  campaign with three endings.
+                </p>
+                <p>
+                  <strong className="font-bold text-on-surface">Under the hood:</strong> strict TypeScript, Three.js for
+                  3D, Rapier (WebAssembly) for car physics, a procedurally built city over the real terrain, and weather,
+                  time of day and holidays from public APIs. The same code ships as a website, an itch.io build and an
+                  Electron desktop app, all built on GitHub Actions.
+                </p>
+              </>
+            ),
+            techs: ["TypeScript", "Three.js", "Rapier", "WebAssembly", "Vite", "Electron", "GitHub Actions"],
+            links: [{ label: "Code", href: supremoMotoristaRepo }],
+          },
+          caseStudy: { href: supremoMotorista.en.href, label: "Play in the browser" },
         },
       ],
     },

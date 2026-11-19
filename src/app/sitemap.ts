@@ -1,12 +1,14 @@
 import type { MetadataRoute } from "next";
 import { bancoDeSangue } from "@/content/case-studies/banco-de-sangue";
 import { siteUrl } from "@/content/shared";
+import { supremoMotorista } from "@/content/supremo-motorista";
 
 /** Páginas com versão nas duas línguas: [português, inglês, prioridade]. */
 const pages: Array<[string, string, number]> = [
   ["", "/en", 1],
   ["/projetos", "/en/projects", 0.8],
   [bancoDeSangue.pt.href, bancoDeSangue.en.href, 0.7],
+  [supremoMotorista.pt.href, supremoMotorista.en.href, 0.7],
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

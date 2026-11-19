@@ -134,6 +134,7 @@ export const projectStyles = {
     rarityClassName: "text-tertiary-fixed",
   },
   milcode: { number: "#08", icon: "terminal", categories: ["crafting"], ...rare },
+  supremo: { number: "#09", icon: "sports_esports", categories: ["crafting"], ...rare },
 } satisfies Record<string, ProjectStyle>;
 
 export const journeyStyles = {

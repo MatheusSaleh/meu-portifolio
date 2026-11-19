@@ -24,6 +24,7 @@ import {
   tccUrl,
 } from "./shared";
 import { bancoDeSangue, bancoDeSangueRepo } from "./case-studies/banco-de-sangue";
+import { supremoMotorista, supremoMotoristaRepo } from "./supremo-motorista";
 import type { Achievement, Content, GithubStats, MilCodeStrings } from "./types";
 
 const milcodeStrings: MilCodeStrings = {
@@ -707,6 +708,38 @@ export function buildPt(stats: GithubStats): Content {
               { label: "Código Java", href: repos.milcodeJava },
             ],
           },
+        },
+        {
+          id: "supremo-motorista",
+          ...projectStyles.supremo,
+          name: "Supremo Motorista",
+          caption: "Jogo 3D no navegador",
+          summary:
+            "Jogo de direção arcade numa Brasília condensada, com física de carro, clima real e campanha. Dá para jogar aqui no site.",
+          footer: "THREE.JS + RAPIER",
+          rarity: "RARO",
+          details: {
+            title: "Supremo Motorista — Jogo 3D",
+            rarity: "Raridade: Raro",
+            description: (
+              <>
+                <p>
+                  Sátira arcade de direção em Brasília: o jogador é Josué, motorista do fictício Tribunal, e leva
+                  ministros pela cidade contra o relógio, com saltos, derrapagens, perseguidores e uma campanha de 10
+                  dias com três finais.
+                </p>
+                <p>
+                  <strong className="font-bold text-on-surface">Por dentro:</strong> TypeScript estrito, Three.js para
+                  o 3D, Rapier (WebAssembly) para a física dos carros, cidade gerada por código sobre o relevo real e
+                  clima, hora e feriados vindos de APIs públicas. O mesmo código vira site, build do itch.io e app
+                  desktop em Electron, gerados no GitHub Actions.
+                </p>
+              </>
+            ),
+            techs: ["TypeScript", "Three.js", "Rapier", "WebAssembly", "Vite", "Electron", "GitHub Actions"],
+            links: [{ label: "Código", href: supremoMotoristaRepo }],
+          },
+          caseStudy: { href: supremoMotorista.pt.href, label: "Jogar no navegador" },
         },
       ],
     },
