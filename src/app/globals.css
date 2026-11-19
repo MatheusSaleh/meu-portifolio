@@ -154,6 +154,34 @@
   --spacing-margin: 1rem;
   --spacing-margin-tablet: 2rem;
   --spacing-margin-desktop: 4rem;
+
+  /* Chamariz do jogo: brilho pulsante e "PRESS START" piscando em degraus (estilo 8-bit) */
+  --animate-cartridge-glow: cartridge-glow 1.6s ease-in-out infinite;
+  --animate-press-start: press-start 1s steps(1, end) infinite;
+
+  @keyframes cartridge-glow {
+    0%,
+    100% {
+      box-shadow:
+        0 0 0 2px var(--color-secondary-container),
+        0 0 12px 0 rgb(67 230 237 / 0.25);
+    }
+    50% {
+      box-shadow:
+        0 0 0 2px var(--color-secondary-fixed),
+        0 0 32px 6px rgb(67 230 237 / 0.55);
+    }
+  }
+
+  @keyframes press-start {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
 }
 
 @theme inline {

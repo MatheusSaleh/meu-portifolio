@@ -111,6 +111,19 @@ export function SiteHeader({ nav, header, languageSwitch, resume, homeHref = "",
         </nav>
 
         <div className="flex items-center gap-space-sm">
+          <a
+            href={header.play.href}
+            aria-label={header.play.ariaLabel}
+            title={header.play.ariaLabel}
+            className="relative flex h-10 shrink-0 items-center gap-1.5 border-2 border-surface-container-lowest bg-primary px-2.5 text-label-md font-bold tracking-wider text-on-primary uppercase voxel-btn-bevel hover:bg-primary-fixed active:translate-y-0.5 motion-safe:animate-cartridge-glow sm:px-space-sm"
+          >
+            <span aria-hidden className="absolute -top-1 -right-1 flex size-2.5">
+              <span className="absolute inline-flex size-full animate-ping bg-secondary-fixed opacity-75" />
+              <span className="relative inline-flex size-2.5 bg-secondary-fixed" />
+            </span>
+            <Icon name="sports_esports" className="text-[20px]" />
+            <span className="hidden sm:inline">{header.play.label}</span>
+          </a>
           <button
             type="button"
             onClick={toggleSfx}

@@ -156,6 +156,11 @@ export function buildEn(stats: GithubStats): Content {
       sfxTitle: "SFX Audio Toggle (8-Bit)",
       sfxLabel: "8-bit sound effects",
       xpTitle: "Exploration XP: scroll the page to fill the bar",
+      play: {
+        href: `${supremoMotorista.en.href}#jogar`,
+        label: "Play",
+        ariaLabel: "Play Supremo Motorista, my 3D game, in the browser",
+      },
     },
     game: {
       toastHeading: "Achievement Unlocked!",
@@ -231,6 +236,16 @@ export function buildEn(stats: GithubStats): Content {
       ],
       ctas: { journey: "Start Journey", chest: "Open Chest", github: "GitHub", linkedin: "LinkedIn" },
       avatar: { equipped: "Equipped", slot: "Slot [1]", item: "Syntax Pickaxe +10" },
+      game: {
+        href: `${supremoMotorista.en.href}#jogar`,
+        cover: supremoMotorista.en.gallery.shots[0],
+        badge: "New · Playable here",
+        pressStart: "Press Start",
+        title: "Supremo Motorista",
+        text: "I built a 3D driving game that runs right in the browser. Nothing to install: click and play.",
+        cta: "Play now",
+        meta: "Three.js · Rapier · TypeScript",
+      },
     },
     journey: {
       eyebrow: "Y Axis: Deep Excavation · 2022 — Present",

@@ -1,4 +1,5 @@
 import { profile } from "@/content/shared";
+import Image from "next/image";
 import type { Content } from "@/content/types";
 import { cx } from "@/lib/cx";
 import { pageGutter } from "@/lib/layout";
@@ -54,6 +55,23 @@ export function HeroSection({ hero, resume }: Pick<Content, "hero" | "resume">) 
             </div>
           </div>
 
+          {/* No celular o cartucho fica abaixo da dobra: esta faixa avisa do jogo logo de cara. */}
+          <a
+            href={hero.game.href}
+            className="flex items-center gap-space-sm border-2 border-surface-container-lowest bg-surface-container-low p-space-sm motion-safe:animate-cartridge-glow lg:hidden"
+          >
+            <span className="flex size-10 shrink-0 items-center justify-center bg-primary text-on-primary voxel-btn-bevel">
+              <Icon name="play_arrow" className="text-[26px]" />
+            </span>
+            <span className="flex min-w-0 flex-col">
+              <span className="text-label-sm font-bold tracking-widest text-secondary uppercase">{hero.game.badge}</span>
+              <span className="truncate font-headline text-headline-sm text-on-surface uppercase">{hero.game.title}</span>
+            </span>
+            <span className="ml-auto hidden shrink-0 text-label-md font-bold tracking-wider text-primary uppercase min-[400px]:inline">
+              {hero.game.cta}
+            </span>
+          </a>
+
           <div className="flex flex-col gap-1">
             <h1 className="font-headline text-headline-xl-mobile tracking-tight text-on-surface uppercase pixel-text-shadow md:text-headline-xl">
               {profile.name}
@@ -106,7 +124,8 @@ export function HeroSection({ hero, resume }: Pick<Content, "hero" | "resume">) 
           </div>
         </div>
 
-        <div className="flex flex-col items-center justify-center lg:col-span-4">
+        <div className="flex flex-col items-center justify-center gap-space-lg lg:col-span-4">
+          <GameCartridge {...hero.game} />
           <AvatarFrame {...hero.avatar} />
         </div>
       </div>
@@ -127,6 +146,59 @@ function PixelSky() {
       <div className="absolute top-28 left-[25%] size-2 bg-primary-fixed" />
       <div className="absolute top-16 left-[5%] size-1.5 bg-tertiary-fixed" />
     </div>
+  );
+}
+
+/** Cartucho do jogo: o primeiro aviso, logo no Spawn, de que dá para jogar no site. */
+function GameCartridge({ href, cover, badge, pressStart, title, text, cta, meta }: Content["hero"]["game"]) {
+  return (
+    <a
+      href={href}
+      className="group relative flex w-full max-w-sm flex-col border-4 border-surface-container-lowest bg-surface-container-low shadow-2xl motion-safe:animate-cartridge-glow focus-visible:outline-4 focus-visible:outline-secondary-fixed"
+    >
+      <span className="absolute -top-3 left-3 z-10 flex items-center gap-1.5 border-2 border-surface-container-lowest bg-secondary px-2 py-0.5 text-label-sm font-bold tracking-widest text-on-secondary uppercase voxel-btn-bevel">
+        <span aria-hidden className="relative flex size-2">
+          <span className="absolute inline-flex size-full animate-ping bg-on-secondary opacity-75" />
+          <span className="relative inline-flex size-2 bg-on-secondary" />
+        </span>
+        {badge}
+      </span>
+
+      <div className="relative aspect-video w-full overflow-hidden border-b-4 border-surface-container-lowest bg-black">
+        <Image
+          src={cover.src}
+          alt={cover.alt}
+          sizes="(min-width: 1024px) 384px, 100vw"
+          placeholder="blur"
+          className="size-full object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+        <div aria-hidden className="absolute inset-0 bg-linear-to-t from-black/80 via-black/10 to-transparent" />
+        <div aria-hidden className="absolute inset-0 flex items-center justify-center">
+          <span className="flex size-16 items-center justify-center border-4 border-surface-container-lowest bg-primary text-on-primary voxel-btn-bevel transition-transform group-hover:scale-110">
+            <Icon name="play_arrow" className="text-[40px]" />
+          </span>
+        </div>
+        <span
+          aria-hidden
+          className="absolute inset-x-0 bottom-2 text-center font-headline text-label-lg tracking-[0.3em] text-secondary-fixed uppercase pixel-text-shadow motion-safe:animate-press-start"
+        >
+          {pressStart}
+        </span>
+      </div>
+
+      <div className="flex flex-col gap-space-xs p-space-md">
+        <div className="flex items-center gap-space-xs">
+          <Icon name="sports_esports" className="text-[20px] text-secondary" />
+          <span className="font-headline text-headline-sm text-on-surface uppercase pixel-text-shadow">{title}</span>
+        </div>
+        <p className="text-body-md text-on-surface-variant">{text}</p>
+        <span className="text-label-sm tracking-wider text-outline uppercase">{meta}</span>
+        <span className="mt-space-xs flex items-center justify-center gap-2 border-2 border-surface-container-lowest bg-primary px-space-md py-space-sm text-label-lg font-bold tracking-wider text-on-primary uppercase voxel-btn-bevel group-hover:bg-primary-fixed group-active:translate-y-1">
+          <Icon name="play_arrow" className="text-[20px]" />
+          {cta}
+        </span>
+      </div>
+    </a>
   );
 }
 

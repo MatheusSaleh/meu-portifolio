@@ -157,6 +157,11 @@ export function buildPt(stats: GithubStats): Content {
       sfxTitle: "SFX Audio Toggle (8-Bit)",
       sfxLabel: "Efeitos sonoros 8-bit",
       xpTitle: "XP de exploração: role a página para encher a barra",
+      play: {
+        href: `${supremoMotorista.pt.href}#jogar`,
+        label: "Jogar",
+        ariaLabel: "Jogar Supremo Motorista, meu jogo 3D, no navegador",
+      },
     },
     game: {
       toastHeading: "Conquista Desbloqueada!",
@@ -232,6 +237,16 @@ export function buildPt(stats: GithubStats): Content {
       ],
       ctas: { journey: "Iniciar Jornada", chest: "Abrir Baú", github: "GitHub", linkedin: "LinkedIn" },
       avatar: { equipped: "Equipado", slot: "Slot [1]", item: "Picareta de Sintaxe +10" },
+      game: {
+        href: `${supremoMotorista.pt.href}#jogar`,
+        cover: supremoMotorista.pt.gallery.shots[0],
+        badge: "Novo · Jogável aqui",
+        pressStart: "Press Start",
+        title: "Supremo Motorista",
+        text: "Fiz um jogo 3D de direção que roda direto no navegador. Sem instalar nada: clique e jogue.",
+        cta: "Jogar agora",
+        meta: "Three.js · Rapier · TypeScript",
+      },
     },
     journey: {
       eyebrow: "Eixo Y: Escavação Profunda · 2022 — Presente",

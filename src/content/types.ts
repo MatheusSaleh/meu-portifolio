@@ -225,6 +225,8 @@ export type Content = {
     sfxTitle: string;
     sfxLabel: string;
     xpTitle: string;
+    /** Botão fixo "Jogar" que leva direto ao jogo embutido. */
+    play: { href: string; label: string; ariaLabel: string };
   };
   game: GameStrings;
   hero: {
@@ -236,6 +238,17 @@ export type Content = {
     typingPhrases: string[];
     ctas: { journey: string; chest: string; github: string; linkedin: string };
     avatar: { equipped: string; slot: string; item: string };
+    /** Cartucho do jogo no Spawn: avisa logo de cara que dá para jogar no site. */
+    game: {
+      href: string;
+      cover: { src: StaticImageData; alt: string };
+      badge: string;
+      pressStart: string;
+      title: string;
+      text: string;
+      cta: string;
+      meta: string;
+    };
   };
   journey: {
     eyebrow: string;
