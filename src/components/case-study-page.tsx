@@ -13,15 +13,17 @@ const panel = "border-2 border-outline-variant bg-surface-container-high p-space
 
 /** Estudo de caso de um projeto: resumo, capturas de tela, funcionalidades, arquitetura e evolução. */
 export function CaseStudyPage({ study, repoHref }: { study: CaseStudy; repoHref: string }) {
+  const { icon = "bloodtype", accentClassName = "text-error" } = study.appearance ?? {};
+  const wideCover = study.cover.wide;
   return (
     <>
       {/* Abertura */}
       <section className={cx("bg-surface-container-lowest py-space-xl", pageGutter)}>
-        <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-space-xl md:grid-cols-[1fr_auto]">
+        <div className={cx("mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-space-xl", wideCover ? "lg:grid-cols-2" : "md:grid-cols-[1fr_auto]")}>
           <div className="flex flex-col gap-space-md">
             <BackLink href={study.back.href} label={study.back.label} />
-            <div className="flex items-center gap-space-xs text-label-md tracking-widest text-error uppercase">
-              <Icon name="bloodtype" className="text-[18px]" />
+            <div className={cx("flex items-center gap-space-xs text-label-md tracking-widest uppercase", accentClassName)}>
+              <Icon name={icon} className="text-[18px]" />
               <span>{study.eyebrow}</span>
               <span className="text-outline">{study.number}</span>
             </div>
@@ -64,11 +66,14 @@ export function CaseStudyPage({ study, repoHref }: { study: CaseStudy; repoHref:
             </div>
           </div>
 
-          <div className="mx-auto w-52 border-[6px] border-surface-container-highest bg-surface-container-lowest shadow-[0_0_0_2px_var(--color-outline-variant),0_20px_40px_rgb(0_0_0/0.6)] sm:w-60 lg:w-64">
+          <div className={cx(
+            "mx-auto border-[6px] border-surface-container-highest bg-surface-container-lowest shadow-[0_0_0_2px_var(--color-outline-variant),0_20px_40px_rgb(0_0_0/0.6)]",
+            wideCover ? "w-full max-w-2xl" : "w-52 sm:w-60 lg:w-64",
+          )}>
             <Image
               src={study.cover.src}
               alt={study.cover.alt}
-              sizes="256px"
+              sizes={wideCover ? "(min-width: 1280px) 560px, (min-width: 1024px) 45vw, (min-width: 768px) 672px, 92vw" : "256px"}
               placeholder="blur"
               loading="eager"
               fetchPriority="high"
@@ -79,39 +84,41 @@ export function CaseStudyPage({ study, repoHref }: { study: CaseStudy; repoHref:
       </section>
 
       {/* Problema */}
-      <Block title={study.problem.title} icon="favorite" className="bg-surface-container">
+      <Block title={study.problem.title} icon={study.appearance?.icon ?? "favorite"} accentClassName={accentClassName} className="bg-surface-container">
         <div className="max-w-3xl text-body-lg leading-relaxed text-on-surface-variant [&>p+p]:mt-space-sm">
           {study.problem.body}
         </div>
       </Block>
 
       {/* Capturas */}
-      <Block id="prints" title={study.gallery.title} icon="photo_library" className="bg-surface-container-lowest">
+      <Block id="prints" title={study.gallery.title} icon="photo_library" accentClassName={accentClassName} className="bg-surface-container-lowest">
         <p className="mb-space-lg max-w-3xl text-body-md text-on-surface-variant">{study.gallery.description}</p>
-        <ScreenshotGallery groups={study.gallery.groups} lightbox={study.gallery.lightbox} />
+        <ScreenshotGallery groups={study.gallery.groups} lightbox={study.gallery.lightbox} accentClassName={accentClassName} />
         <p className="mt-space-lg max-w-3xl border-l-4 border-tertiary-fixed bg-surface-container px-space-sm py-space-xs text-body-sm text-on-surface-variant">
           {study.gallery.note}
         </p>
       </Block>
 
       {/* Funcionalidades */}
-      <Block title={study.features.title} icon="build" className="bg-surface-container">
+      <Block title={study.features.title} icon="build" accentClassName={accentClassName} className="bg-surface-container">
         <p className="mb-space-lg max-w-3xl text-body-md text-on-surface-variant">{study.features.description}</p>
         <ul className="grid grid-cols-1 gap-space-md sm:grid-cols-2 lg:grid-cols-3">
           {study.features.items.map((item) => (
             <li key={item.title} className={cx(panel, "flex flex-col gap-space-xs")}>
               <div className="flex items-start justify-between gap-space-sm">
-                <Icon name={item.icon} className="text-[24px] text-error" />
-                <span
-                  className={cx(
-                    "border px-1 text-[10px] font-bold",
-                    item.origin === "2026"
-                      ? "border-primary bg-primary/20 text-primary-fixed"
-                      : "border-tertiary-fixed bg-tertiary-container/30 text-tertiary-fixed",
-                  )}
-                >
-                  {item.origin}
-                </span>
+                <Icon name={item.icon} className={cx("text-[24px]", accentClassName)} />
+                {item.origin && (
+                  <span
+                    className={cx(
+                      "border px-1 text-[10px] font-bold",
+                      item.origin === "2026"
+                        ? "border-primary bg-primary/20 text-primary-fixed"
+                        : "border-tertiary-fixed bg-tertiary-container/30 text-tertiary-fixed",
+                    )}
+                  >
+                    {item.origin}
+                  </span>
+                )}
               </div>
               <h3 className="font-headline text-headline-sm text-on-surface">{item.title}</h3>
               <p className="text-body-md text-on-surface-variant">{item.text}</p>
@@ -121,7 +128,7 @@ export function CaseStudyPage({ study, repoHref }: { study: CaseStudy; repoHref:
       </Block>
 
       {/* Arquitetura e decisões */}
-      <Block title={study.architecture.title} icon="hub" className="bg-surface-container-lowest">
+      <Block title={study.architecture.title} icon="hub" accentClassName={accentClassName} className="bg-surface-container-lowest">
         <p className="mb-space-lg max-w-3xl text-body-md text-on-surface-variant">{study.architecture.description}</p>
         <div className="grid grid-cols-1 items-stretch gap-space-md md:grid-cols-[1fr_auto_1fr]">
           {study.architecture.layers.map((layer, index) => (
@@ -164,16 +171,25 @@ export function CaseStudyPage({ study, repoHref }: { study: CaseStudy; repoHref:
       </Block>
 
       {/* Evolução e qualidade */}
-      <Block title={study.evolution.title} icon="history" className="bg-surface-container">
-        <div className="grid grid-cols-1 gap-space-md md:grid-cols-2">
-          <EvolutionColumn {...study.evolution.before} tone="before" />
-          <EvolutionColumn {...study.evolution.after} tone="after" />
-        </div>
+      <Block
+        title={study.evolution?.title ?? study.quality.title}
+        icon={study.evolution ? "history" : "verified"}
+        accentClassName={accentClassName}
+        className="bg-surface-container"
+      >
+        {study.evolution && (
+          <>
+            <div className="grid grid-cols-1 gap-space-md md:grid-cols-2">
+              <EvolutionColumn {...study.evolution.before} tone="before" />
+              <EvolutionColumn {...study.evolution.after} tone="after" />
+            </div>
 
-        <h3 className="mt-space-xl mb-space-md flex items-center gap-space-xs font-headline text-headline-sm text-on-surface uppercase">
-          <Icon name="verified" className="text-[20px] text-primary" />
-          {study.quality.title}
-        </h3>
+            <h3 className="mt-space-xl mb-space-md flex items-center gap-space-xs font-headline text-headline-sm text-on-surface uppercase">
+              <Icon name="verified" className="text-[20px] text-primary" />
+              {study.quality.title}
+            </h3>
+          </>
+        )}
         <dl className="grid grid-cols-3 gap-space-sm">
           {study.quality.stats.map((stat) => (
             <div key={stat.label} className={cx(panel, "flex flex-col-reverse items-center text-center")}>
@@ -205,7 +221,7 @@ export function CaseStudyPage({ study, repoHref }: { study: CaseStudy; repoHref:
           <h2 className="font-headline text-headline-md text-on-surface uppercase">{study.cta.title}</h2>
           <p className="max-w-xl text-body-md text-on-surface-variant">{study.cta.text}</p>
           <div className="flex flex-wrap justify-center gap-space-sm">
-            {study.links.slice(0, 1).map((link) => (
+            {study.links.filter((link, index) => index === 0 || link.showInCta).map((link) => (
               <a
                 key={link.href}
                 href={link.href}
@@ -235,12 +251,14 @@ function Block({
   id,
   title,
   icon,
+  accentClassName,
   className,
   children,
 }: {
   id?: string;
   title: string;
   icon: string;
+  accentClassName: string;
   className: string;
   children: ReactNode;
 }) {
@@ -248,7 +266,7 @@ function Block({
     <section id={id} className={cx("scroll-mt-20 py-space-xl", pageGutter, className)}>
       <div className="mx-auto w-full max-w-6xl">
         <h2 className="mb-space-md flex items-center gap-space-sm font-headline text-headline-lg-mobile text-on-surface uppercase pixel-text-shadow md:text-headline-lg">
-          <Icon name={icon} className="text-[28px] text-error" />
+          <Icon name={icon} className={cx("text-[28px]", accentClassName)} />
           {title}
         </h2>
         {children}

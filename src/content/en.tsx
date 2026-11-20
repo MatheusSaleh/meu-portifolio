@@ -22,6 +22,7 @@ import {
   tccUrl,
 } from "./shared";
 import { bancoDeSangue, bancoDeSangueRepo } from "./case-studies/banco-de-sangue";
+import { cryptoWallet, cryptoWalletLive } from "./case-studies/crypto-wallet";
 import { supremoMotorista, supremoMotoristaRepo } from "./supremo-motorista";
 import type { Achievement, Content, GithubStats, MilCodeStrings } from "./types";
 
@@ -491,7 +492,7 @@ export function buildEn(stats: GithubStats): Content {
           name: "Crypto Wallet",
           caption: "NestJS API + React Dashboard",
           summary:
-            "Crypto wallet simulation: an API with balances, swaps, withdrawals and an accounting ledger, plus a React dashboard with live rates.",
+            "Simulated wallet for BRL, BTC, and ETH with a React dashboard, a NestJS API, and CoinGecko market rates.",
           footer: "NESTJS + REACT",
           rarity: "RARE",
           details: {
@@ -499,22 +500,8 @@ export function buildEn(stats: GithubStats): Content {
             rarity: "Rarity: Rare",
             description: (
               <>
-                <p>
-                  A simulation of the infrastructure behind a crypto wallet (BRL, BTC and ETH), split into two
-                  independent projects.
-                </p>
-                <p>
-                  <strong className="font-bold text-on-surface">Server:</strong> REST API in NestJS, Prisma and
-                  PostgreSQL with JWT authentication, webhook deposits with an idempotency key, swaps priced live by
-                  CoinGecko (1.5% fee), withdrawals with balance checks and an accounting ledger that stores the balance
-                  before and after every operation, all in atomic transactions. Runs in Docker, with automatic deploys to
-                  Render through GitHub Actions and Swagger docs.
-                </p>
-                <p>
-                  <strong className="font-bold text-on-surface">Client:</strong> React + TypeScript dashboard for
-                  deposits, withdrawals, balances and history, with live currency conversion from CoinGecko, forms
-                  validated with Zod and dark mode.
-                </p>
+                <p><strong className="font-bold text-on-surface">Client.</strong>{" "}Authenticated dashboard with balances, deposits, withdrawals, conversion review, and a paginated ledger. Includes light and dark themes.</p>
+                <p><strong className="font-bold text-on-surface">Server.</strong>{" "}REST API with JWT, idempotent deposits, and balance and ledger updates in one transaction. The public API documentation is available in Swagger.</p>
               </>
             ),
             techs: [
@@ -522,19 +509,19 @@ export function buildEn(stats: GithubStats): Content {
               "Prisma",
               "PostgreSQL",
               "JWT",
-              "Docker",
-              "GitHub Actions",
               "React",
               "TypeScript",
-              "Tailwind CSS",
-              "Zod",
-              "CoinGecko API",
+              "TanStack Query",
+              "Swagger",
             ],
             links: [
-              { label: "Server Code", href: repos.cryptoServer },
-              { label: "Client Code", href: repos.cryptoClient },
+              { label: "Open dashboard", href: cryptoWalletLive.client },
+              { label: "Open API Swagger", href: cryptoWalletLive.server },
+              { label: "Client GitHub", href: repos.cryptoClient },
+              { label: "Server GitHub", href: repos.cryptoServer },
             ],
           },
+          caseStudy: { href: cryptoWallet.en.href, label: "Screenshots and details", cover: cryptoWallet.en.cover },
         },
         {
           id: "sistema-especialista",

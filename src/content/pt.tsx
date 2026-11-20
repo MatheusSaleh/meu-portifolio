@@ -24,6 +24,7 @@ import {
   tccUrl,
 } from "./shared";
 import { bancoDeSangue, bancoDeSangueRepo } from "./case-studies/banco-de-sangue";
+import { cryptoWallet, cryptoWalletLive } from "./case-studies/crypto-wallet";
 import { supremoMotorista, supremoMotoristaRepo } from "./supremo-motorista";
 import type { Achievement, Content, GithubStats, MilCodeStrings } from "./types";
 
@@ -490,7 +491,7 @@ export function buildPt(stats: GithubStats): Content {
           name: "Crypto Wallet",
           caption: "API NestJS + Dashboard React",
           summary:
-            "Simulação de carteira de criptoativos: API com saldos, swaps, saques e ledger contábil, e dashboard React com cotações reais.",
+            "Carteira simulada em BRL, BTC e ETH com dashboard React, API NestJS e cotações da CoinGecko.",
           footer: "NESTJS + REACT",
           rarity: "RARO",
           details: {
@@ -498,22 +499,8 @@ export function buildPt(stats: GithubStats): Content {
             rarity: "Raridade: Raro",
             description: (
               <>
-                <p>
-                  Simulação da infraestrutura de uma carteira de criptoativos (BRL, BTC e ETH), dividida em dois
-                  projetos independentes.
-                </p>
-                <p>
-                  <strong className="font-bold text-on-surface">Server:</strong> API REST em NestJS, Prisma e PostgreSQL
-                  com autenticação JWT, depósitos via webhook com chave de idempotência, swaps com cotação real da
-                  CoinGecko (taxa de 1,5%), saques com validação de saldo e um ledger contábil que guarda o saldo anterior
-                  e o posterior de cada operação, tudo em transações atômicas. Roda em Docker, com deploy automático no
-                  Render via GitHub Actions e documentação no Swagger.
-                </p>
-                <p>
-                  <strong className="font-bold text-on-surface">Client:</strong> dashboard em React + TypeScript para
-                  depósitos, saques, saldos e histórico, com conversão de moedas em tempo real pela CoinGecko,
-                  formulários validados com Zod e dark mode.
-                </p>
+                <p><strong className="font-bold text-on-surface">Client.</strong>{" "}Dashboard autenticado com saldos, depósitos, saques, revisão de conversões e extrato paginado. Inclui temas claro e escuro.</p>
+                <p><strong className="font-bold text-on-surface">Server.</strong>{" "}API REST com JWT, depósitos idempotentes e atualização de saldo e livro-razão na mesma transação. A documentação pública está no Swagger.</p>
               </>
             ),
             techs: [
@@ -521,19 +508,19 @@ export function buildPt(stats: GithubStats): Content {
               "Prisma",
               "PostgreSQL",
               "JWT",
-              "Docker",
-              "GitHub Actions",
               "React",
               "TypeScript",
-              "Tailwind CSS",
-              "Zod",
-              "CoinGecko API",
+              "TanStack Query",
+              "Swagger",
             ],
             links: [
-              { label: "Código Server", href: repos.cryptoServer },
-              { label: "Código Client", href: repos.cryptoClient },
+              { label: "Abrir dashboard", href: cryptoWalletLive.client },
+              { label: "Abrir Swagger da API", href: cryptoWalletLive.server },
+              { label: "GitHub do Client", href: repos.cryptoClient },
+              { label: "GitHub do Server", href: repos.cryptoServer },
             ],
           },
+          caseStudy: { href: cryptoWallet.pt.href, label: "Ver prints e detalhes", cover: cryptoWallet.pt.cover },
         },
         {
           id: "sistema-especialista",

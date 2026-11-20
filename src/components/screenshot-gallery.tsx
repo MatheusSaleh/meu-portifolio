@@ -8,10 +8,10 @@ import { format } from "@/lib/format";
 import { useGame } from "./game-provider";
 import { Icon } from "./icon";
 
-type GalleryProps = Pick<CaseStudy["gallery"], "groups" | "lightbox">;
+type GalleryProps = Pick<CaseStudy["gallery"], "groups" | "lightbox"> & { accentClassName?: string };
 
 /** Galeria de capturas em grupos; um clique abre a captura ampliada num <dialog> com navegação. */
-export function ScreenshotGallery({ groups, lightbox }: GalleryProps) {
+export function ScreenshotGallery({ groups, lightbox, accentClassName = "text-error" }: GalleryProps) {
   const { playSlot } = useGame();
   const all = groups.flatMap((group) => group.shots);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -36,19 +36,27 @@ export function ScreenshotGallery({ groups, lightbox }: GalleryProps) {
       <div className="flex flex-col gap-space-xl">
         {groups.map((group, g) => {
           const start = starts[g];
+          const landscape = group.shots.every((shot) => shot.wide);
+          const paired = landscape && group.shots.length > 1;
           return (
             <div key={group.title}>
               <h3 className="mb-space-md flex items-center gap-space-xs font-headline text-headline-sm text-on-surface uppercase">
-                <Icon name={group.icon} className="text-[20px] text-error" />
+                <Icon name={group.icon} className={cx("text-[20px]", accentClassName)} />
                 {group.title}
                 <span className="text-label-sm text-outline">({group.shots.length})</span>
               </h3>
-              <ul className="grid grid-cols-2 gap-space-md sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
+              <ul className={cx(
+                "grid gap-space-md",
+                landscape
+                  ? cx("grid-cols-1", paired ? "sm:grid-cols-2" : "max-w-3xl")
+                  : "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6",
+              )}>
                 {group.shots.map((shot, i) => (
-                  <li key={shot.caption} className={cx(shot.wide && "col-span-2 sm:col-span-3 lg:col-span-4")}>
+                  <li key={shot.caption} className={cx(!landscape && shot.wide && "col-span-2 sm:col-span-3 lg:col-span-4")}>
                     <Thumbnail
                       shot={shot}
                       label={format(lightbox.open, { caption: shot.caption })}
+                      sizes={paired ? "(min-width: 1280px) 560px, (min-width: 640px) 45vw, 95vw" : undefined}
                       onOpen={() => {
                         setOpenIndex(start + i);
                         playSlot(3);
@@ -90,7 +98,7 @@ export function ScreenshotGallery({ groups, lightbox }: GalleryProps) {
                 </button>
               </form>
             </div>
-            <div className="flex w-full items-center justify-center gap-space-sm">
+            <div className="grid w-full grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-space-xs sm:gap-space-sm">
               <NavButton label={lightbox.prev} icon="chevron_left" onClick={() => step(-1)} />
               <Image
                 key={openIndex}
@@ -99,7 +107,7 @@ export function ScreenshotGallery({ groups, lightbox }: GalleryProps) {
                 sizes={current.wide ? "(min-width: 1024px) 900px, 90vw" : "(min-width: 768px) 420px, 80vw"}
                 placeholder="blur"
                 className={cx(
-                  "h-auto w-auto border-4 border-surface-container-lowest object-contain shadow-[0_0_0_2px_var(--color-outline-variant)]",
+                  "h-auto w-auto justify-self-center border-4 border-surface-container-lowest object-contain shadow-[0_0_0_2px_var(--color-outline-variant)]",
                   current.wide ? "max-h-[calc(100dvh-9rem)] max-w-full" : "max-h-[calc(100dvh-9rem)] max-w-[min(100%,26rem)]",
                 )}
               />
@@ -113,7 +121,7 @@ export function ScreenshotGallery({ groups, lightbox }: GalleryProps) {
   );
 }
 
-function Thumbnail({ shot, label, onOpen }: { shot: Screenshot; label: string; onOpen: () => void }) {
+function Thumbnail({ shot, label, sizes, onOpen }: { shot: Screenshot; label: string; sizes?: string; onOpen: () => void }) {
   return (
     <figure className="flex flex-col gap-space-xs">
       <button
@@ -126,7 +134,7 @@ function Thumbnail({ shot, label, onOpen }: { shot: Screenshot; label: string; o
         <Image
           src={shot.src}
           alt={shot.alt}
-          sizes={shot.wide ? "(min-width: 1024px) 60vw, 95vw" : "(min-width: 1280px) 15vw, (min-width: 1024px) 22vw, (min-width: 640px) 30vw, 45vw"}
+          sizes={sizes ?? (shot.wide ? "(min-width: 1024px) 60vw, 95vw" : "(min-width: 1280px) 15vw, (min-width: 1024px) 22vw, (min-width: 640px) 30vw, 45vw")}
           placeholder="blur"
           className="h-auto w-full"
         />

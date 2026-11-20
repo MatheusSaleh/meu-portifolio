@@ -101,7 +101,7 @@ function FeaturedCaseStudy({ study, strings }: { study: CaseStudy; strings: Cont
 }
 
 function ProjectArticle({ project, stackLabel }: { project: Project; stackLabel: string }) {
-  const { classNames, details } = project;
+  const { caseStudy, classNames, details } = project;
   return (
     <article
       className={cx(
@@ -124,6 +124,18 @@ function ProjectArticle({ project, stackLabel }: { project: Project; stackLabel:
         </div>
       </header>
 
+      {caseStudy?.cover && (
+        <Link href={caseStudy.href} aria-label={caseStudy.label} className="block border-2 border-outline-variant hover:border-secondary">
+          <Image
+            src={caseStudy.cover.src}
+            alt={caseStudy.cover.alt}
+            sizes="(min-width: 1280px) 520px, (min-width: 1024px) 45vw, 90vw"
+            placeholder="blur"
+            className="h-auto w-full"
+          />
+        </Link>
+      )}
+
       <div className="border border-outline-variant bg-surface-container-lowest p-space-sm text-body-md leading-relaxed text-lore voxel-slot-inset [&>p+p]:mt-2">
         {details.description}
       </div>
@@ -139,15 +151,15 @@ function ProjectArticle({ project, stackLabel }: { project: Project; stackLabel:
         </ul>
       </div>
 
-      {(project.caseStudy || (details.links?.length ?? 0) > 0) && (
+      {(caseStudy || (details.links?.length ?? 0) > 0) && (
         <div className="mt-auto flex flex-wrap gap-space-sm border-t border-outline-variant pt-space-sm">
-          {project.caseStudy && (
+          {caseStudy && (
             <Link
-              href={project.caseStudy.href}
+              href={caseStudy.href}
               className="flex items-center gap-1 bg-secondary px-space-sm py-1.5 text-label-md font-bold text-on-secondary uppercase voxel-btn-bevel"
             >
               <Icon name="photo_library" className="text-[16px]" />
-              <span>{project.caseStudy.label}</span>
+              <span>{caseStudy.label}</span>
             </Link>
           )}
           {details.links?.map((link) => (

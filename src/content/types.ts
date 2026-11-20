@@ -67,11 +67,11 @@ export type Project = ProjectStyle & {
     /** Texto simples ou parágrafos (<p>) do modal. */
     description: ReactNode;
     techs: string[];
-    /** Botões de código no modal; sem links, o modal mostra só "Fechar". */
+    /** Links externos para o projeto e seu código. */
     links?: Array<{ label: string; href: string }>;
   };
   /** Página própria do projeto (estudo de caso com capturas de tela). */
-  caseStudy?: { href: string; label: string };
+  caseStudy?: { href: string; label: string; cover?: Screenshot };
 };
 
 export type Screenshot = {
@@ -93,13 +93,14 @@ export type CaseStudy = {
   back: { href: string; label: string };
   number: string;
   eyebrow: string;
+  appearance?: { icon: string; accentClassName: string };
   title: string;
   tagline: ReactNode;
   cover: Screenshot;
   /** Três capturas usadas no destaque da página de projetos. */
   preview: Screenshot[];
   facts: Array<{ label: string; value: ReactNode }>;
-  links: Array<{ label: string; href: string; icon: string }>;
+  links: Array<{ label: string; href: string; icon: string; showInCta?: boolean }>;
   problem: { title: string; body: ReactNode };
   gallery: {
     title: string;
@@ -111,7 +112,7 @@ export type CaseStudy = {
   features: {
     title: string;
     description: string;
-    items: Array<{ title: string; text: string; origin: string; icon: string }>;
+    items: Array<{ title: string; text: string; origin?: string; icon: string }>;
   };
   architecture: {
     title: string;
@@ -124,7 +125,7 @@ export type CaseStudy = {
     headers: { decision: string; why: string; cost: string };
     items: Array<{ decision: string; why: string; cost: string }>;
   };
-  evolution: {
+  evolution?: {
     title: string;
     before: { title: string; items: string[] };
     after: { title: string; items: string[] };
