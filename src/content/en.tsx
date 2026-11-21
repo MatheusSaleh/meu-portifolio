@@ -21,6 +21,7 @@ import {
   skillTreeStyles,
   tccUrl,
 } from "./shared";
+import { autolab, autolabLive } from "./case-studies/autolab";
 import { bancoDeSangue, bancoDeSangueRepo } from "./case-studies/banco-de-sangue";
 import { cryptoWallet, cryptoWalletLive } from "./case-studies/crypto-wallet";
 import { supremoMotorista, supremoMotoristaRepo } from "./supremo-motorista";
@@ -526,31 +527,28 @@ export function buildEn(stats: GithubStats): Content {
         {
           id: "sistema-especialista",
           ...projectStyles.especialista,
-          name: "Expert System",
-          caption: "Spring Boot + Drools",
-          summary: "Rule-based car fault diagnosis: the Drools engine matches symptoms and points to the likely cause.",
+          name: "AutoLab",
+          caption: "Spring Boot + Drools + React",
+          summary:
+            "Automotive diagnosis simulator with 28 explainable Drools rules. It started in 2025 as a terminal expert system and became AutoLab in 2026.",
           footer: "SYMBOLIC AI",
           rarity: "UNCOMMON",
           details: {
-            title: "Automotive Diagnosis Expert System",
+            title: "AutoLab · Automotive Diagnosis Expert System",
             rarity: "Rarity: Uncommon",
             description: (
               <>
-                <p>
-                  An expert system (2025) that diagnoses car faults from symptoms, using the Drools rules engine
-                  integrated with Spring Boot.
-                </p>
-                <p>
-                  The knowledge base has 10 DRL rules, from direct ones (engine won&apos;t start → check the battery) to
-                  rules that combine facts: suspension noise past 100,000 km calls for a suspension check, and a new
-                  battery that won&apos;t hold a charge points to the alternator. Symptoms go in as facts in a KIE
-                  session and Drools fires the matching rules.
-                </p>
+                <p><strong className="font-bold text-on-surface">2025.</strong>{" "}A terminal expert system with 10 Drools rules that printed the diagnosis to the console.</p>
+                <p><strong className="font-bold text-on-surface">2026.</strong>{" "}A React web interface and a Spring Boot API with 28 rules across six areas. Each hypothesis shows the rule and the answers that fired it, with follow-up questions, simulation comparison, and a rule catalog.</p>
               </>
             ),
-            techs: ["Java", "Spring Boot", "Drools", "KIE", "DRL"],
-            links: [{ label: "View Code", href: repos.expertSystem }],
+            techs: ["Java", "Spring Boot", "Drools", "React", "TypeScript", "Docker"],
+            links: [
+              { label: "Open AutoLab", href: autolabLive },
+              { label: "Code on GitHub", href: repos.expertSystem },
+            ],
           },
+          caseStudy: { href: autolab.en.href, label: "Screenshots and details", cover: autolab.en.cover },
         },
         {
           id: "bancosangue",

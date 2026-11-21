@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { autolab } from "@/content/case-studies/autolab";
 import { bancoDeSangue } from "@/content/case-studies/banco-de-sangue";
 import { cryptoWallet } from "@/content/case-studies/crypto-wallet";
 import { siteUrl } from "@/content/shared";
@@ -10,6 +11,7 @@ const pages: Array<[string, string, number]> = [
   ["/projetos", "/en/projects", 0.8],
   [bancoDeSangue.pt.href, bancoDeSangue.en.href, 0.7],
   [cryptoWallet.pt.href, cryptoWallet.en.href, 0.7],
+  [autolab.pt.href, autolab.en.href, 0.7],
   [supremoMotorista.pt.href, supremoMotorista.en.href, 0.7],
 ];
 
