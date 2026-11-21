@@ -118,6 +118,8 @@ export type CaseStudy = {
     title: string;
     description: string;
     layers: Array<{ name: string; subtitle: string; items: string[] }>;
+    /** Rótulo da seta entre as duas camadas (padrão: HTTPS). */
+    connector?: string;
     link: string;
   };
   decisions: {

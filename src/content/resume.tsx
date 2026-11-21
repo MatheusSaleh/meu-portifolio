@@ -1,4 +1,5 @@
 import { cryptoWallet } from "./case-studies/crypto-wallet";
+import { pedidosGrpc } from "./case-studies/pedidos-grpc";
 import { profile, siteUrl } from "./shared";
 import type { Locale } from "./types";
 
@@ -106,9 +107,10 @@ export const resumePt: ResumeContent = {
         "Sistema para hemocentros em Angular e Spring Boot, com app gamificado para doadores em React Native e chat via WebSocket.",
     },
     {
-      name: "Microsserviços de Pedidos (2025)",
-      href: `${siteUrl}/projetos#pedidos-grpc`,
-      description: "Serviços Spring Boot recebem pedidos via REST e gRPC, enfileiram no RabbitMQ e consultam o status no MongoDB.",
+      name: "Microsserviços de Pedidos (2025–2026)",
+      href: `${siteUrl}${pedidosGrpc.pt.href}`,
+      description:
+        "Quatro serviços Java 21 e Spring Boot ligados por gRPC e RabbitMQ, com novas tentativas, Dead Letter Queue e painel React em tempo real. Demo online.",
     },
     {
       name: "Crypto Wallet (2026)",
@@ -121,8 +123,8 @@ export const resumePt: ResumeContent = {
   skills: [
     { group: "Back-end", items: "PHP, Laravel, Java, Spring Boot, Node.js, NestJS" },
     { group: "Front-end e mobile", items: "TypeScript, Angular, React, React Native" },
-    { group: "Dados e integrações", items: "PostgreSQL, MySQL, Redis, RabbitMQ, gRPC, REST, webhooks" },
-    { group: "Testes e entrega", items: "JUnit, PHPUnit, Docker, GitHub Actions" },
+    { group: "Dados e integrações", items: "PostgreSQL, MySQL, MongoDB, Redis, RabbitMQ, gRPC, REST, webhooks" },
+    { group: "Testes e entrega", items: "JUnit, PHPUnit, Docker, GitHub Actions, Trivy" },
   ],
 };
 
@@ -204,9 +206,10 @@ export const resumeEn: ResumeContent = {
         "Angular and Spring Boot system for blood centers with a gamified React Native donor app and WebSocket chat.",
     },
     {
-      name: "Order Microservices (2025)",
-      href: `${siteUrl}/en/projects#pedidos-grpc`,
-      description: "Spring Boot services accept orders over REST and gRPC, queue them in RabbitMQ, and read status from MongoDB.",
+      name: "Order Microservices (2025–2026)",
+      href: `${siteUrl}${pedidosGrpc.en.href}`,
+      description:
+        "Four Java 21 and Spring Boot services connected by gRPC and RabbitMQ, with retries, a Dead Letter Queue, and a real-time React dashboard. Live demo.",
     },
     {
       name: "Crypto Wallet (2026)",
@@ -219,7 +222,7 @@ export const resumeEn: ResumeContent = {
   skills: [
     { group: "Back-end", items: "PHP, Laravel, Java, Spring Boot, Node.js, NestJS" },
     { group: "Front-end & mobile", items: "TypeScript, Angular, React, React Native" },
-    { group: "Data & integrations", items: "PostgreSQL, MySQL, Redis, RabbitMQ, gRPC, REST, webhooks" },
-    { group: "Testing & delivery", items: "JUnit, PHPUnit, Docker, GitHub Actions" },
+    { group: "Data & integrations", items: "PostgreSQL, MySQL, MongoDB, Redis, RabbitMQ, gRPC, REST, webhooks" },
+    { group: "Testing & delivery", items: "JUnit, PHPUnit, Docker, GitHub Actions, Trivy" },
   ],
 };

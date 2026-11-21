@@ -26,6 +26,7 @@ import {
 import { autolab, autolabLive } from "./case-studies/autolab";
 import { bancoDeSangue, bancoDeSangueRepo } from "./case-studies/banco-de-sangue";
 import { cryptoWallet, cryptoWalletLive } from "./case-studies/crypto-wallet";
+import { pedidosGrpc, pedidosGrpcLive } from "./case-studies/pedidos-grpc";
 import { supremoMotorista, supremoMotoristaRepo } from "./supremo-motorista";
 import type { Achievement, Content, GithubStats, MilCodeStrings } from "./types";
 
@@ -450,9 +451,9 @@ export function buildPt(stats: GithubStats): Content {
           id: "pedidos-grpc",
           ...projectStyles.pedidos,
           name: "Microsserviços de Pedidos",
-          caption: "Spring Boot · gRPC · RabbitMQ",
+          caption: "Spring Boot · gRPC · RabbitMQ · React",
           summary:
-            "Pedidos que saem de uma API REST, passam por gRPC e entram numa fila do RabbitMQ, com status consultado no MongoDB.",
+            "Pedidos atravessam quatro microsserviços por REST, gRPC e RabbitMQ, com novas tentativas, Dead Letter Queue e visualização ao vivo. Demo online.",
           footer: "GRPC + RABBITMQ",
           rarity: "RARO",
           details: {
@@ -460,31 +461,17 @@ export function buildPt(stats: GithubStats): Content {
             rarity: "Raridade: Raro",
             description: (
               <>
-                <p>
-                  Estudo de comunicação entre microsserviços (2025), dividido em quatro repositórios Spring Boot que
-                  compartilham o mesmo contrato em Protocol Buffers.
-                </p>
-                <p>
-                  <strong className="font-bold text-on-surface">Fluxo:</strong> o order-client expõe uma API REST e
-                  repassa o pedido por gRPC ao order-server. O servidor gera o ID, publica o pedido numa fila do RabbitMQ
-                  e responde na hora com o status RECEIVED, sem esperar o processamento. A consulta de status lê o pedido
-                  no MongoDB.
-                </p>
-                <p>
-                  <strong className="font-bold text-on-surface">Peças:</strong> o grpc-commons guarda o .proto do
-                  OrderService (PlaceOrder e GetOrderStatus), gerado pelo protobuf-maven-plugin; o order-worker é a base
-                  do consumidor da fila, com Spring AMQP e MongoDB; RabbitMQ e MongoDB sobem com Docker Compose.
-                </p>
+                <p><strong className="font-bold text-on-surface">2025.</strong>{" "}Estudo de gRPC: um gateway REST repassava o pedido ao order-server, que o publicava numa fila do RabbitMQ.</p>
+                <p><strong className="font-bold text-on-surface">2026.</strong>{" "}Plataforma completa em Java 21 e Spring Boot 4.2, publicada online. O pedido é salvo no MongoDB antes da fila, o worker tenta de novo com backoff e envia para a Dead Letter Queue após 3 falhas, e uma interface em React mostra cada etapa em tempo real por SSE, com modo didático, rajadas de 50 pedidos e métricas.</p>
               </>
             ),
-            techs: ["Java", "Spring Boot", "gRPC", "Protocol Buffers", "RabbitMQ", "MongoDB", "Docker Compose", "Maven"],
+            techs: ["Java 21", "Spring Boot", "gRPC", "Protocol Buffers", "RabbitMQ", "MongoDB", "React", "Docker"],
             links: [
-              { label: "Código Client", href: repos.orderClient },
-              { label: "Código Server", href: repos.orderServer },
-              { label: "Código Worker", href: repos.orderWorker },
-              { label: "Código Commons", href: repos.grpcCommons },
+              { label: "Abrir a demo", href: pedidosGrpcLive },
+              { label: "Código no GitHub", href: repos.orderPlatform },
             ],
           },
+          caseStudy: { href: pedidosGrpc.pt.href, label: "Ver prints e detalhes", cover: pedidosGrpc.pt.cover },
         },
         {
           id: "cryptowallet",

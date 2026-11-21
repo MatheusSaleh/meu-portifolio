@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { autolab } from "@/content/case-studies/autolab";
 import { bancoDeSangue } from "@/content/case-studies/banco-de-sangue";
 import { cryptoWallet } from "@/content/case-studies/crypto-wallet";
+import { pedidosGrpc } from "@/content/case-studies/pedidos-grpc";
 import { siteUrl } from "@/content/shared";
 import { supremoMotorista } from "@/content/supremo-motorista";
 
@@ -9,6 +10,7 @@ import { supremoMotorista } from "@/content/supremo-motorista";
 const pages: Array<[string, string, number]> = [
   ["", "/en", 1],
   ["/projetos", "/en/projects", 0.8],
+  [pedidosGrpc.pt.href, pedidosGrpc.en.href, 0.7],
   [bancoDeSangue.pt.href, bancoDeSangue.en.href, 0.7],
   [cryptoWallet.pt.href, cryptoWallet.en.href, 0.7],
   [autolab.pt.href, autolab.en.href, 0.7],

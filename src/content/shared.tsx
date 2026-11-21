@@ -56,6 +56,8 @@ export const repos = {
   orderServer: "https://github.com/MatheusSaleh/order-server",
   orderWorker: "https://github.com/MatheusSaleh/order-worker",
   grpcCommons: "https://github.com/MatheusSaleh/grpc-commons",
+  orderFrontend: "https://github.com/MatheusSaleh/order-frontend",
+  orderPlatform: "https://github.com/MatheusSaleh/order-platform",
   cryptoServer: "https://github.com/MatheusSaleh/crypto-wallet-server",
   cryptoClient: "https://github.com/MatheusSaleh/crypto-wallet-client",
   expertSystem: "https://github.com/MatheusSaleh/SistemaEspecialista",

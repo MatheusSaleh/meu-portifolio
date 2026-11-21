@@ -132,7 +132,7 @@ export function CaseStudyPage({ study, repoHref }: { study: CaseStudy; repoHref:
         <p className="mb-space-lg max-w-3xl text-body-md text-on-surface-variant">{study.architecture.description}</p>
         <div className="grid grid-cols-1 items-stretch gap-space-md md:grid-cols-[1fr_auto_1fr]">
           {study.architecture.layers.map((layer, index) => (
-            <ArchitectureLayer key={layer.name} layer={layer} connector={index === 0} />
+            <ArchitectureLayer key={layer.name} layer={layer} connector={index === 0 ? (study.architecture.connector ?? "HTTPS") : undefined} />
           ))}
         </div>
 
@@ -280,7 +280,7 @@ function ArchitectureLayer({
   connector,
 }: {
   layer: CaseStudy["architecture"]["layers"][number];
-  connector: boolean;
+  connector?: string;
 }) {
   return (
     <>
@@ -301,7 +301,7 @@ function ArchitectureLayer({
       {connector && (
         <div aria-hidden className="flex items-center justify-center text-label-sm text-outline md:flex-col">
           <Icon name="arrow_forward" className="rotate-90 text-[24px] text-primary md:rotate-0" />
-          <span className="ml-space-xs md:ml-0">HTTPS</span>
+          <span className="ml-space-xs md:ml-0">{connector}</span>
         </div>
       )}
     </>
