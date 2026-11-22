@@ -24,6 +24,7 @@ import {
   tccUrl,
 } from "./shared";
 import { autolab, autolabLive } from "./case-studies/autolab";
+import { funeraria } from "./case-studies/funeraria";
 import { bancoDeSangue, bancoDeSangueRepo } from "./case-studies/banco-de-sangue";
 import { cryptoWallet, cryptoWalletLive } from "./case-studies/crypto-wallet";
 import { pedidosGrpc, pedidosGrpcLive } from "./case-studies/pedidos-grpc";
@@ -592,6 +593,7 @@ export function buildPt(stats: GithubStats): Content {
               { label: "Código Back-end", href: repos.funeralBack },
             ],
           },
+          caseStudy: { href: funeraria.pt.href, label: "Ver prints e detalhes", cover: funeraria.pt.cover },
         },
         {
           id: "bancosangue-tcc",
