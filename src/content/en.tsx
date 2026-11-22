@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { MilCodeTerminal } from "@/components/milcode-terminal";
 import { TextLink } from "@/components/text-link";
 import {
@@ -23,6 +24,7 @@ import {
 } from "./shared";
 import { autolab, autolabLive } from "./case-studies/autolab";
 import { funeraria } from "./case-studies/funeraria";
+import { tgOps } from "./case-studies/tg-ops";
 import { bancoDeSangue, bancoDeSangueRepo } from "./case-studies/banco-de-sangue";
 import { cryptoWallet, cryptoWalletLive } from "./case-studies/crypto-wallet";
 import { pedidosGrpc, pedidosGrpcLive } from "./case-studies/pedidos-grpc";
@@ -326,10 +328,14 @@ export function buildEn(stats: GithubStats): Content {
           subtitle: "Defense & Information Security",
           description: (
             <>
-              Architect and maintainer of the <strong className="font-bold text-secondary-fixed">TG Ops</strong>{" "}
-              ecosystem: a mission-critical military administration system with Docker, Nginx, Cloudflare, CrowdSec,
-              Grafana/Loki telemetry and AES-256-GCM encryption, in strict compliance with LGPD, Brazil&apos;s data
-              protection law.
+              Architect and maintainer of{" "}
+              <Link href={tgOps.en.href} className="font-bold text-secondary-fixed underline underline-offset-2 hover:text-secondary">
+                TG Ops
+              </Link>
+              , a production system that moved a military unit&apos;s administration off spreadsheets. I built the
+              Spring Boot API&apos;s security (2FA, revocable Redis sessions and personal data encrypted with AES-256-GCM
+              under LGPD, Brazil&apos;s data protection law), the Angular front-end for web and desktop and a
+              microservice that generates the PDF documents. It runs on Docker, Nginx, Cloudflare and CrowdSec.
             </>
           ),
           tags: [
@@ -447,6 +453,7 @@ export function buildEn(stats: GithubStats): Content {
               "Architecture and development of a government/military platform in production. Built with Spring Boot, Angular, PostgreSQL, Redis caching, Docker containers behind Nginx and advanced protection with CrowdSec and Cloudflare. End-to-end AES-256-GCM encryption for strict LGPD compliance.",
             techs: ["Spring Boot", "Angular", "Postgres", "Redis", "Docker", "CrowdSec", "AES-256-GCM"],
           },
+          caseStudy: { href: tgOps.en.href, label: "Screenshots and details", cover: tgOps.en.cover },
         },
         {
           id: "pedidos-grpc",

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { MilCodeTerminal } from "@/components/milcode-terminal";
 import { TextLink } from "@/components/text-link";
 import {
@@ -25,6 +26,7 @@ import {
 } from "./shared";
 import { autolab, autolabLive } from "./case-studies/autolab";
 import { funeraria } from "./case-studies/funeraria";
+import { tgOps } from "./case-studies/tg-ops";
 import { bancoDeSangue, bancoDeSangueRepo } from "./case-studies/banco-de-sangue";
 import { cryptoWallet, cryptoWalletLive } from "./case-studies/crypto-wallet";
 import { pedidosGrpc, pedidosGrpcLive } from "./case-studies/pedidos-grpc";
@@ -326,9 +328,14 @@ export function buildPt(stats: GithubStats): Content {
           subtitle: "Defesa & Segurança da Informação",
           description: (
             <>
-              Arquiteto e mantenedor do ecossistema <strong className="font-bold text-secondary-fixed">TG Ops</strong>.
-              Sistema administrativo militar de alta criticidade com infraestrutura Docker, Nginx, Cloudflare, CrowdSec,
-              telemetria Grafana/Loki e criptografia AES-256-GCM em compliance rigoroso com a LGPD.
+              Arquiteto e mantenedor do{" "}
+              <Link href={tgOps.pt.href} className="font-bold text-secondary-fixed underline underline-offset-2 hover:text-secondary">
+                TG Ops
+              </Link>
+              , sistema em produção que tirou das planilhas a gestão de uma unidade militar. Construí a segurança da API
+              em Spring Boot (2FA, sessões revogáveis no Redis e dados pessoais cifrados com AES-256-GCM, seguindo a
+              LGPD), o front-end Angular para web e desktop e um microsserviço que gera os documentos em PDF. Roda com
+              Docker, Nginx, Cloudflare e CrowdSec.
             </>
           ),
           tags: [
@@ -447,6 +454,7 @@ export function buildPt(stats: GithubStats): Content {
               "Arquitetura e desenvolvimento de plataforma governamental/militar em produção. Construído com Spring Boot, Angular, PostgreSQL, Redis para cache, containers Docker orquestrados com Nginx e proteção avançada via CrowdSec e Cloudflare. Implementa criptografia de ponta a ponta AES-256-GCM para adequação rigorosa à LGPD.",
             techs: ["Spring Boot", "Angular", "Postgres", "Redis", "Docker", "CrowdSec", "AES-256-GCM"],
           },
+          caseStudy: { href: tgOps.pt.href, label: "Ver prints e detalhes", cover: tgOps.pt.cover },
         },
         {
           id: "pedidos-grpc",

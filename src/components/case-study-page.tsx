@@ -12,7 +12,7 @@ import { TechStack } from "./tech-stack";
 const panel = "border-2 border-outline-variant bg-surface-container-high p-space-md voxel-slot-inset";
 
 /** Estudo de caso de um projeto: resumo, capturas de tela, funcionalidades, arquitetura e evolução. */
-export function CaseStudyPage({ study, repoHref }: { study: CaseStudy; repoHref: string }) {
+export function CaseStudyPage({ study, repoHref }: { study: CaseStudy; repoHref?: string }) {
   const { icon = "bloodtype", accentClassName = "text-error" } = study.appearance ?? {};
   const wideCover = study.cover.wide;
   return (
@@ -130,9 +130,21 @@ export function CaseStudyPage({ study, repoHref }: { study: CaseStudy; repoHref:
       {/* Arquitetura e decisões */}
       <Block title={study.architecture.title} icon="hub" accentClassName={accentClassName} className="bg-surface-container-lowest">
         <p className="mb-space-lg max-w-3xl text-body-md text-on-surface-variant">{study.architecture.description}</p>
-        <div className="grid grid-cols-1 items-stretch gap-space-md md:grid-cols-[1fr_auto_1fr]">
+        <div className={cx(
+          "grid grid-cols-1 items-stretch gap-space-md",
+          study.architecture.layers.length > 2 ? "lg:grid-cols-[1fr_auto_1fr_auto_1fr]" : "md:grid-cols-[1fr_auto_1fr]",
+        )}>
           {study.architecture.layers.map((layer, index) => (
-            <ArchitectureLayer key={layer.name} layer={layer} connector={index === 0 ? (study.architecture.connector ?? "HTTPS") : undefined} />
+            <ArchitectureLayer
+              key={layer.name}
+              layer={layer}
+              wide={study.architecture.layers.length > 2}
+              connector={
+                study.architecture.connectors
+                  ? study.architecture.connectors[index]
+                  : index === 0 ? { label: study.architecture.connector ?? "HTTPS" } : undefined
+              }
+            />
           ))}
         </div>
 
@@ -159,15 +171,17 @@ export function CaseStudyPage({ study, repoHref }: { study: CaseStudy; repoHref:
             </tbody>
           </table>
         </div>
-        <a
-          href={repoHref}
-          target="_blank"
-          rel="noreferrer"
-          className="mt-space-md inline-flex items-center gap-1 text-label-md text-secondary uppercase underline underline-offset-2 hover:text-secondary-fixed"
-        >
-          {study.architecture.link}
-          <Icon name="arrow_outward" className="text-[16px]" />
-        </a>
+        {repoHref && study.architecture.link && (
+          <a
+            href={repoHref}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-space-md inline-flex items-center gap-1 text-label-md text-secondary uppercase underline underline-offset-2 hover:text-secondary-fixed"
+          >
+            {study.architecture.link}
+            <Icon name="arrow_outward" className="text-[16px]" />
+          </a>
+        )}
       </Block>
 
       {/* Evolução e qualidade */}
@@ -278,9 +292,12 @@ function Block({
 function ArchitectureLayer({
   layer,
   connector,
+  wide = false,
 }: {
   layer: CaseStudy["architecture"]["layers"][number];
-  connector?: string;
+  connector?: { label: string; direction?: "forward" | "back" };
+  /** Três camadas: as setas só ficam na horizontal a partir do breakpoint lg. */
+  wide?: boolean;
 }) {
   return (
     <>
@@ -299,9 +316,12 @@ function ArchitectureLayer({
         </ul>
       </div>
       {connector && (
-        <div aria-hidden className="flex items-center justify-center text-label-sm text-outline md:flex-col">
-          <Icon name="arrow_forward" className="rotate-90 text-[24px] text-primary md:rotate-0" />
-          <span className="ml-space-xs md:ml-0">{connector}</span>
+        <div aria-hidden className={cx("flex items-center justify-center text-label-sm text-outline", wide ? "lg:flex-col" : "md:flex-col")}>
+          <Icon
+            name={connector.direction === "back" ? "arrow_back" : "arrow_forward"}
+            className={cx("rotate-90 text-[24px] text-primary", wide ? "lg:rotate-0" : "md:rotate-0")}
+          />
+          <span className={cx("ml-space-xs text-center", wide ? "lg:ml-0" : "md:ml-0")}>{connector.label}</span>
         </div>
       )}
     </>

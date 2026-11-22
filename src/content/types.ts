@@ -120,7 +120,10 @@ export type CaseStudy = {
     layers: Array<{ name: string; subtitle: string; items: string[] }>;
     /** Rótulo da seta entre as duas camadas (padrão: HTTPS). */
     connector?: string;
-    link: string;
+    /** Com três camadas: uma seta entre cada par vizinho, apontando para a camada seguinte ou para a anterior. */
+    connectors?: Array<{ label: string; direction?: "forward" | "back" }>;
+    /** Texto do link para o código; omitido quando os repositórios são privados. */
+    link?: string;
   };
   decisions: {
     title: string;

@@ -4,6 +4,7 @@ import { bancoDeSangue } from "@/content/case-studies/banco-de-sangue";
 import { cryptoWallet } from "@/content/case-studies/crypto-wallet";
 import { funeraria } from "@/content/case-studies/funeraria";
 import { pedidosGrpc } from "@/content/case-studies/pedidos-grpc";
+import { tgOps } from "@/content/case-studies/tg-ops";
 import { siteUrl } from "@/content/shared";
 import { supremoMotorista } from "@/content/supremo-motorista";
 
@@ -11,6 +12,7 @@ import { supremoMotorista } from "@/content/supremo-motorista";
 const pages: Array<[string, string, number]> = [
   ["", "/en", 1],
   ["/projetos", "/en/projects", 0.8],
+  [tgOps.pt.href, tgOps.en.href, 0.7],
   [pedidosGrpc.pt.href, pedidosGrpc.en.href, 0.7],
   [bancoDeSangue.pt.href, bancoDeSangue.en.href, 0.7],
   [cryptoWallet.pt.href, cryptoWallet.en.href, 0.7],
