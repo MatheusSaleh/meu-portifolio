@@ -51,6 +51,7 @@ const MATERIAL_SYMBOLS = [
   "devices",
   "directions_car",
   "download",
+  "expand_more",
   "explore",
   "favorite",
   "folder_zip",

@@ -225,7 +225,8 @@ export type Content = {
   htmlLang: string;
   meta: { title: string; description: string; ogDescription: string; ogLocale: string };
   languageSwitch: { href: string; label: string; ariaLabel: string };
-  resume: { href: string; label: string };
+  /** Botão "Baixar currículo": abre um menu com uma versão por tipo de vaga. */
+  resume: { label: string; menuLabel: string; options: Array<{ label: string; description: string; href: string }> };
   nav: { ariaLabel: string; slots: NavSlot[]; openMenu: string; closeMenu: string; menuTitle: string };
   header: {
     sfxTitle: string;

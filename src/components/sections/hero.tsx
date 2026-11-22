@@ -8,6 +8,7 @@ import { GroundStratum } from "../hero/ground-stratum";
 import { SkyAmbient } from "../hero/sky-ambient";
 import { TypingSubtitle } from "../hero/typing-subtitle";
 import { Icon } from "../icon";
+import { ResumeMenu } from "../resume-menu";
 
 const ctaBase =
   "flex items-center gap-2 border-2 border-surface-container-lowest px-space-md py-space-sm text-label-lg tracking-wider uppercase transition-none active:translate-y-1";
@@ -88,14 +89,10 @@ export function HeroSection({ hero, resume }: Pick<Content, "hero" | "resume">) 
               <Icon name="explore" className="text-[18px]" />
               <span>{hero.ctas.journey}</span>
             </a>
-            <a
-              href={resume.href}
-              download
+            <ResumeMenu
+              resume={resume}
               className={cx(ctaBase, "bg-tertiary text-on-tertiary voxel-btn-bevel hover:bg-tertiary-fixed")}
-            >
-              <Icon name="download" className="text-[18px]" />
-              <span>{resume.label}</span>
-            </a>
+            />
             <a
               href="#projetos"
               className={cx(ctaBase, "bg-surface-container text-secondary voxel-btn-bevel hover:text-secondary-fixed")}

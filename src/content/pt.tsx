@@ -27,6 +27,7 @@ import {
 import { autolab, autolabLive } from "./case-studies/autolab";
 import { funeraria } from "./case-studies/funeraria";
 import { tgOps } from "./case-studies/tg-ops";
+import { resumes } from "./resume";
 import { bancoDeSangue, bancoDeSangueRepo } from "./case-studies/banco-de-sangue";
 import { cryptoWallet, cryptoWalletLive } from "./case-studies/crypto-wallet";
 import { pedidosGrpc, pedidosGrpcLive } from "./case-studies/pedidos-grpc";
@@ -142,7 +143,15 @@ export function buildPt(stats: GithubStats): Content {
       ogLocale: "pt_BR",
     },
     languageSwitch: { href: "/en", label: "EN", ariaLabel: "Read this portfolio in English" },
-    resume: { href: "/curriculo-matheus-saleh.pdf", label: "Baixar Currículo" },
+    resume: {
+      label: "Baixar Currículo",
+      menuLabel: "Escolha a versão do currículo",
+      options: [
+        { label: "Full Stack", description: "Laravel · Spring Boot · Angular", href: resumes.pt.fullstack.pdfHref },
+        { label: "Backend", description: "Java/Spring Boot · PHP/Laravel", href: resumes.pt.backend.pdfHref },
+        { label: "Frontend", description: "Angular · React · TypeScript", href: resumes.pt.frontend.pdfHref },
+      ],
+    },
     nav: {
       ariaLabel: "Seções do portfólio",
       openMenu: "Abrir menu",

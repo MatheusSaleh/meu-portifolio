@@ -7,6 +7,7 @@ import { cx } from "@/lib/cx";
 import { pageGutter } from "@/lib/layout";
 import { useGame } from "./game-provider";
 import { Icon } from "./icon";
+import { ResumeMenu } from "./resume-menu";
 
 type SiteHeaderProps = Pick<Content, "nav" | "header" | "languageSwitch" | "resume"> & {
   /** Fora da página inicial, a hotbar aponta para as seções dela (ex.: "/" ou "/en"). */
@@ -199,14 +200,10 @@ export function SiteHeader({ nav, header, languageSwitch, resume, homeHref = "",
             </ul>
           </nav>
           <div className="mt-space-sm flex flex-wrap items-center gap-space-sm">
-            <a
-              href={resume.href}
-              download
+            <ResumeMenu
+              resume={resume}
               className="flex items-center gap-2 border-2 border-surface-container-lowest bg-tertiary px-space-sm py-2 text-label-md font-bold text-on-tertiary uppercase voxel-btn-bevel"
-            >
-              <Icon name="download" className="text-[18px]" />
-              <span>{resume.label}</span>
-            </a>
+            />
             <a
               href={languageSwitch.href}
               aria-label={languageSwitch.ariaLabel}
