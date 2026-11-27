@@ -172,6 +172,8 @@ export function RootDocument({ lang, children }: { lang: string; children: React
   return (
     <html
       lang={lang}
+      // O script da tela de carregamento (boot-screen.tsx) marca data-boot antes da hidratação.
+      suppressHydrationWarning
       data-scroll-behavior="smooth"
       className={`${rubik.variable} ${jetbrainsMono.variable} ${inter.variable} antialiased`}
     >

@@ -78,15 +78,7 @@
   --color-grass-dark: #4a7725;
   --color-dirt-light: #875c39;
   --color-dirt-dark: #5c3b20;
-  --color-sky-night: #18233c;
-  --color-sky-night-deep: #101018;
   --color-sky-day: #78a7ff;
-  --color-sky-day-mid: #92baff;
-  --color-sky-day-low: #b4d2ff;
-  --color-skin: #e0ac69;
-  --color-hair: #382313;
-  --color-hoodie: #1f3b5c;
-  --color-jeans: #162231;
   --color-tooltip: #100c1c;
   --color-tooltip-border: #281c40;
   --color-lore: #a0a0b0;
@@ -285,4 +277,41 @@
 
 ::-webkit-scrollbar {
   display: none;
+}
+
+/* Tela de carregamento (components/boot-screen.tsx). O script inline marca <html data-boot>: "skip" em visitas
+   repetidas na sessão (some já no primeiro quadro) e "done" depois da saída. Sem JavaScript, não aparece; se o
+   JavaScript falhar antes de hidratar, some sozinha depois de 14 s (hidratado, o componente desliga esta animação). */
+html[data-boot="skip"] #boot-screen,
+html[data-boot="done"] #boot-screen {
+  display: none;
+}
+
+#boot-screen:not([data-hydrated]) {
+  animation: boot-failsafe 0.5s ease 14s forwards;
+}
+
+@keyframes boot-failsafe {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+@keyframes boot-tip {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@keyframes boot-block {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(8deg);
+  }
 }

@@ -9,6 +9,13 @@ import type { Locale } from "./types";
 /** Endereço do jogo dentro do portfólio (o next.config.ts repassa /jogo para o projeto do jogo na Vercel). */
 export const gamePath = "/jogo";
 
+/**
+ * Domínio próprio do jogo na Vercel. A cena ao vivo do topo da página inicial é embutida direto dele (e não
+ * por /jogo): num domínio diferente, o navegador a roda em outro processo e a montagem da cidade não trava o site.
+ */
+export const gameOrigin = (process.env.NEXT_PUBLIC_GAME_ORIGIN ?? "https://supremo-motorista.vercel.app").replace(/\/$/, "");
+export const vitrineUrl = `${gameOrigin}/jogo/vitrine.html`;
+
 export const supremoMotoristaRepo = "https://github.com/MatheusSaleh/supremo-motorista";
 
 export type GamePage = {
