@@ -1,5 +1,6 @@
 import { profile, siteUrl } from "@/content/shared";
 import type { Content } from "@/content/types";
+import { BootScreen, bootScript } from "./boot-screen";
 import { ExplorationWatcher } from "./exploration-watcher";
 import { GameProvider } from "./game-provider";
 import { AchievementsSection } from "./sections/achievements";
@@ -32,6 +33,12 @@ export function Portfolio({ content }: { content: Content }) {
 
   return (
     <GameProvider strings={content.game}>
+      {/* Antes de tudo: decide se a tela de carregamento aparece (primeira visita da sessão). */}
+      <script dangerouslySetInnerHTML={{ __html: bootScript }} />
+      <noscript>
+        <style>{"#boot-screen{display:none}"}</style>
+      </noscript>
+      <BootScreen boot={content.boot} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(person).replace(/</g, "\\u003c") }}

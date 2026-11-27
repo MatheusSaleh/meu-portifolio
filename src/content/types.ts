@@ -236,6 +236,20 @@ export type Content = {
     play: { href: string; label: string; ariaLabel: string };
   };
   game: GameStrings;
+  /** Tela de carregamento da página inicial (components/boot-screen.tsx). */
+  boot: {
+    title: string;
+    generating: string;
+    ready: string;
+    start: string;
+    skip: string;
+    pressKey: string;
+    /** Etapa da cena 3D que passou do limite de espera e segue carregando atrás. */
+    background: string;
+    tipLabel: string;
+    tasks: Record<"fonts" | "page" | "poster" | "character" | "city" | "shaders", string>;
+    tips: string[];
+  };
   hero: {
     spawnCoords: string;
     cycle: { label: string; phases: Record<DayPhase, string>; ariaLabel: string };
@@ -244,7 +258,6 @@ export type Content = {
     bio: ReactNode;
     typingPhrases: string[];
     ctas: { journey: string; chest: string; github: string; linkedin: string };
-    avatar: { equipped: string; slot: string; item: string };
     /** Cartucho do jogo no Spawn: avisa logo de cara que dá para jogar no site. */
     game: {
       href: string;
@@ -255,6 +268,8 @@ export type Content = {
       text: string;
       cta: string;
       meta: string;
+      /** Cena ao vivo do jogo no fundo do Spawn (ver components/hero/live-scene.tsx). */
+      scene: { title: string; live: string; still: string; caption: string };
     };
   };
   journey: {

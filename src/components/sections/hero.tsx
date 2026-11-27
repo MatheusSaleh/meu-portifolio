@@ -5,7 +5,7 @@ import { cx } from "@/lib/cx";
 import { pageGutter } from "@/lib/layout";
 import { CycleIndicator } from "../hero/cycle-indicator";
 import { GroundStratum } from "../hero/ground-stratum";
-import { SkyAmbient } from "../hero/sky-ambient";
+import { LiveScene } from "../hero/live-scene";
 import { TypingSubtitle } from "../hero/typing-subtitle";
 import { Icon } from "../icon";
 import { ResumeMenu } from "../resume-menu";
@@ -19,8 +19,7 @@ export function HeroSection({ hero, resume }: Pick<Content, "hero" | "resume">) 
       id="spawn"
       className="relative flex min-h-[942px] w-full scroll-mt-20 flex-col justify-between overflow-hidden bg-surface-container-lowest"
     >
-      <SkyAmbient />
-      <PixelSky />
+      <LiveScene scene={hero.game.scene} href={hero.game.href} />
 
       <div
         className={cx(
@@ -37,11 +36,11 @@ export function HeroSection({ hero, resume }: Pick<Content, "hero" | "resume">) 
 
       <div
         className={cx(
-          "relative z-10 my-auto grid w-full grid-cols-1 items-center gap-gutter-desktop py-space-xl lg:grid-cols-12",
+          "relative z-10 my-auto grid w-full grid-cols-1 items-center py-space-xl lg:grid-cols-12",
           pageGutter,
         )}
       >
-        <div className="flex flex-col gap-space-md lg:col-span-8">
+        <div className="flex flex-col gap-space-md lg:col-span-7">
           <div className="flex flex-wrap items-center gap-space-sm">
             <div className="inline-flex items-center gap-space-xs border border-primary/40 bg-surface-container-high px-space-sm py-1 text-primary-fixed voxel-slot-inset">
               <Icon name="terminal" className="text-[16px] text-primary" />
@@ -119,12 +118,10 @@ export function HeroSection({ hero, resume }: Pick<Content, "hero" | "resume">) 
               <span>{hero.ctas.linkedin}</span>
             </a>
           </div>
-        </div>
 
-        <div className="flex flex-col items-center justify-center gap-space-lg lg:col-span-4">
           <GameCartridge {...hero.game} />
-          <AvatarFrame {...hero.avatar} />
         </div>
+        {/* A coluna da direita fica livre: é onde a cena mostra a mesa e o personagem. */}
       </div>
 
       <GroundStratum />
@@ -132,26 +129,12 @@ export function HeroSection({ hero, resume }: Pick<Content, "hero" | "resume">) 
   );
 }
 
-/** Nuvens e estrelas retrô do céu. */
-function PixelSky() {
-  return (
-    <div aria-hidden className="pointer-events-none absolute inset-0 opacity-40">
-      <div className="absolute top-12 left-[10%] h-6 w-24 bg-surface-container-highest opacity-60 shadow-[4px_4px_0_var(--color-outline-variant)]" />
-      <div className="absolute top-20 right-[15%] h-8 w-36 bg-surface-container-highest opacity-50 shadow-[4px_4px_0_var(--color-outline-variant)]" />
-      <div className="absolute top-36 left-[45%] h-5 w-16 bg-surface-container-highest opacity-40 shadow-[4px_4px_0_var(--color-outline-variant)]" />
-      <div className="absolute top-10 left-[75%] size-2 animate-ping bg-secondary-fixed" />
-      <div className="absolute top-28 left-[25%] size-2 bg-primary-fixed" />
-      <div className="absolute top-16 left-[5%] size-1.5 bg-tertiary-fixed" />
-    </div>
-  );
-}
-
-/** Cartucho do jogo: o primeiro aviso, logo no Spawn, de que dá para jogar no site. */
-function GameCartridge({ href, cover, badge, pressStart, title, text, cta, meta }: Content["hero"]["game"]) {
+/** Cartucho do jogo (desktop): avisa que a cena ao fundo é o jogo e que dá para jogar no site. */
+function GameCartridge({ href, cover, badge, pressStart, title, text, cta, meta }: Omit<Content["hero"]["game"], "scene">) {
   return (
     <a
       href={href}
-      className="group relative flex w-full max-w-sm flex-col border-4 border-surface-container-lowest bg-surface-container-low shadow-2xl motion-safe:animate-cartridge-glow focus-visible:outline-4 focus-visible:outline-secondary-fixed"
+      className="group relative mt-space-sm hidden w-full max-w-2xl border-4 border-surface-container-lowest bg-surface-container-low/95 shadow-2xl motion-safe:animate-cartridge-glow focus-visible:outline-4 focus-visible:outline-secondary-fixed lg:flex"
     >
       <span className="absolute -top-3 left-3 z-10 flex items-center gap-1.5 border-2 border-surface-container-lowest bg-secondary px-2 py-0.5 text-label-sm font-bold tracking-widest text-on-secondary uppercase voxel-btn-bevel">
         <span aria-hidden className="relative flex size-2">
@@ -161,89 +144,42 @@ function GameCartridge({ href, cover, badge, pressStart, title, text, cta, meta 
         {badge}
       </span>
 
-      <div className="relative aspect-video w-full overflow-hidden border-b-4 border-surface-container-lowest bg-black">
+      <div className="relative aspect-video w-60 shrink-0 self-center overflow-hidden border-r-4 border-surface-container-lowest bg-black">
         <Image
           src={cover.src}
           alt={cover.alt}
-          sizes="(min-width: 1024px) 384px, 100vw"
+          sizes="240px"
           placeholder="blur"
           className="size-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
         <div aria-hidden className="absolute inset-0 bg-linear-to-t from-black/80 via-black/10 to-transparent" />
         <div aria-hidden className="absolute inset-0 flex items-center justify-center">
-          <span className="flex size-16 items-center justify-center border-4 border-surface-container-lowest bg-primary text-on-primary voxel-btn-bevel transition-transform group-hover:scale-110">
-            <Icon name="play_arrow" className="text-[40px]" />
+          <span className="flex size-12 items-center justify-center border-4 border-surface-container-lowest bg-primary text-on-primary voxel-btn-bevel transition-transform group-hover:scale-110">
+            <Icon name="play_arrow" className="text-[30px]" />
           </span>
         </div>
         <span
           aria-hidden
-          className="absolute inset-x-0 bottom-2 text-center font-headline text-label-lg tracking-[0.3em] text-secondary-fixed uppercase pixel-text-shadow motion-safe:animate-press-start"
+          className="absolute inset-x-0 bottom-1.5 text-center font-headline text-label-md tracking-[0.3em] text-secondary-fixed uppercase pixel-text-shadow motion-safe:animate-press-start"
         >
           {pressStart}
         </span>
       </div>
 
-      <div className="flex flex-col gap-space-xs p-space-md">
+      <div className="flex min-w-0 flex-1 flex-col gap-space-xs p-space-md">
         <div className="flex items-center gap-space-xs">
           <Icon name="sports_esports" className="text-[20px] text-secondary" />
           <span className="font-headline text-headline-sm text-on-surface uppercase pixel-text-shadow">{title}</span>
         </div>
         <p className="text-body-md text-on-surface-variant">{text}</p>
-        <span className="text-label-sm tracking-wider text-outline uppercase">{meta}</span>
-        <span className="mt-space-xs flex items-center justify-center gap-2 border-2 border-surface-container-lowest bg-primary px-space-md py-space-sm text-label-lg font-bold tracking-wider text-on-primary uppercase voxel-btn-bevel group-hover:bg-primary-fixed group-active:translate-y-1">
-          <Icon name="play_arrow" className="text-[20px]" />
-          {cta}
-        </span>
+        <div className="mt-auto flex flex-wrap items-center justify-between gap-space-sm">
+          <span className="text-label-sm tracking-wider text-outline uppercase">{meta}</span>
+          <span className="flex items-center gap-2 border-2 border-surface-container-lowest bg-primary px-space-md py-space-xs text-label-lg font-bold tracking-wider text-on-primary uppercase voxel-btn-bevel group-hover:bg-primary-fixed group-active:translate-y-1">
+            <Icon name="play_arrow" className="text-[20px]" />
+            {cta}
+          </span>
+        </div>
       </div>
     </a>
-  );
-}
-
-/** Personagem voxel equipado com a "Picareta de Sintaxe". */
-function AvatarFrame({ equipped, slot, item }: Content["hero"]["avatar"]) {
-  return (
-    <div className="relative flex h-72 w-64 flex-col items-center justify-between border-4 border-surface-container-highest bg-surface-container-low p-space-sm shadow-2xl">
-      <div className="flex w-full items-center justify-between px-1 text-label-sm text-outline uppercase">
-        <span>{equipped}</span>
-        <span className="font-bold text-secondary">{slot}</span>
-      </div>
-
-      <div aria-hidden className="relative flex h-48 w-36 items-center justify-center">
-        <div className="absolute top-8 -right-2 flex size-12 animate-bounce items-center justify-center border-2 border-secondary bg-secondary/20">
-          <span className="font-headline text-headline-md font-bold text-secondary">{"{ }"}</span>
-        </div>
-        <div className="flex flex-col items-center">
-          <div className="relative flex size-16 items-center justify-center border-2 border-surface-container-lowest bg-skin voxel-btn-bevel">
-            <div className="absolute inset-x-0 top-0 h-4 bg-hair" />
-            <div className="z-10 mt-2 flex gap-2">
-              {[0, 1].map((eye) => (
-                <div
-                  key={eye}
-                  className="flex size-3 items-center justify-center border border-secondary bg-surface-container-lowest"
-                >
-                  <div className="size-1 bg-secondary-fixed" />
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="relative mt-0.5 flex h-16 w-20 flex-col items-center justify-center border-2 border-surface-container-lowest bg-hoodie voxel-btn-bevel">
-            <span className="text-[8px] font-bold text-primary">&lt;/&gt;</span>
-            <div className="absolute inset-x-0 bottom-0 flex h-2 items-center justify-center bg-surface-container-lowest">
-              <div className="h-1 w-2 bg-tertiary" />
-            </div>
-          </div>
-          <div className="mt-0.5 flex gap-1">
-            <div className="h-10 w-8 bg-jeans voxel-slot-inset" />
-            <div className="h-10 w-8 bg-jeans voxel-slot-inset" />
-          </div>
-        </div>
-      </div>
-
-      <div className="w-full border border-surface-container-lowest bg-surface-container-high px-2 py-1 text-center voxel-btn-bevel">
-        <span className="text-label-md font-bold tracking-widest text-primary uppercase pixel-text-shadow">
-          {item}
-        </span>
-      </div>
-    </div>
   );
 }
