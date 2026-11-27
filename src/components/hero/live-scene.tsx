@@ -1,9 +1,12 @@
 "use client";
 
-import Image from "next/image";
+import { getImageProps, type StaticImageData } from "next/image";
 import { useEffect, useRef, useState } from "react";
+import diaRetrato from "@/assets/hero/vitrine-dia-retrato.jpg";
 import dia from "@/assets/hero/vitrine-dia.jpg";
+import entardecerRetrato from "@/assets/hero/vitrine-entardecer-retrato.jpg";
 import entardecer from "@/assets/hero/vitrine-entardecer.jpg";
+import noiteRetrato from "@/assets/hero/vitrine-noite-retrato.jpg";
 import noite from "@/assets/hero/vitrine-noite.jpg";
 import type { Content } from "@/content/types";
 import { gameOrigin, vitrineUrl } from "@/content/supremo-motorista";
@@ -11,15 +14,17 @@ import type { DayPhase } from "@/lib/day-phase";
 import { cx } from "@/lib/cx";
 import { useGame } from "../game-provider";
 
-/** Imagem estática (mesmo enquadramento da cena ao vivo) para cada fase do dia do visitante. */
-const POSTERS: Record<DayPhase, typeof dia> = {
-  madrugada: noite,
-  amanhecer: entardecer,
-  manha: dia,
-  tarde: dia,
-  entardecer,
-  noite,
-};
+/**
+ * Imagens estáticas (mesmos enquadramentos da cena ao vivo) para cada fase do dia do visitante: paisagem para o
+ * fundo do desktop e retrato para o quadro do celular.
+ */
+type Poster = { landscape: StaticImageData; portrait: StaticImageData };
+const DAY: Poster = { landscape: dia, portrait: diaRetrato };
+const DUSK: Poster = { landscape: entardecer, portrait: entardecerRetrato };
+const NIGHT: Poster = { landscape: noite, portrait: noiteRetrato };
+const POSTERS: Record<DayPhase, Poster> = { madrugada: NIGHT, amanhecer: DUSK, manha: DAY, tarde: DAY, entardecer: DUSK, noite: NIGHT };
+/** Onde vale o enquadramento paisagem (o mesmo limite do layout e da câmera da cena). */
+const LANDSCAPE_MEDIA = "(min-width: 1024px), (orientation: landscape)";
 
 /** Avisa a tela de carregamento que a imagem do topo chegou (evento + marca, caso ela ainda não esteja ouvindo). */
 function announcePoster() {
@@ -27,26 +32,27 @@ function announcePoster() {
   window.dispatchEvent(new Event("portfolio:poster-ready"));
 }
 
-type Nav = Navigator & { deviceMemory?: number; connection?: { saveData?: boolean } };
+type Nav = Navigator & { deviceMemory?: number; connection?: { saveData?: boolean; effectiveType?: string } };
 
-/** Só carrega a cena 3D onde ela roda bem e não pesa: tela larga, WebGL2, sem economia de dados nem "reduzir movimento". */
+/**
+ * Só carrega a cena 3D onde ela não pesa: WebGL2, sem economia de dados, sem conexão lenta (o personagem tem
+ * ~6 MB), sem aparelho com pouca memória e sem "reduzir movimento". Vale para celular e desktop.
+ */
 export function canRunLive(): boolean {
   const nav = navigator as Nav;
-  if (!window.matchMedia("(min-width: 1024px)").matches) return false;
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
   if (nav.connection?.saveData) return false;
+  if (nav.connection?.effectiveType && /(^|-)2g$|^3g$/.test(nav.connection.effectiveType)) return false;
   if (nav.deviceMemory !== undefined && nav.deviceMemory < 4) return false;
-  // O Safari ainda não roda iframes de outro site em processo separado: a montagem da cidade (alguns segundos)
-  // travaria esta página. Lá fica a imagem estática.
-  if (/^((?!chrome|chromium|android|crios|fxios|edg).)*safari/i.test(nav.userAgent)) return false;
   return !!document.createElement("canvas").getContext("webgl2");
 }
 
 /**
- * Fundo do Spawn: o escritório do Supremo Motorista com a Esplanada pela janela. Mostra na hora a imagem
- * estática da fase do dia e, depois que a página carrega, embute a cena ao vivo (hora e clima reais de
- * Brasília), que entra por cima com um fade quando o primeiro quadro fica pronto. A cena vem do domínio do
- * jogo (outro processo do navegador): a montagem da cidade, de alguns segundos, não trava esta página.
+ * O escritório do Supremo Motorista com a Esplanada pela janela: fundo do Spawn no desktop e quadro no topo no
+ * celular (a cena escolhe o enquadramento pela proporção). Mostra na hora a imagem estática da fase do dia e
+ * embute a cena ao vivo (hora e clima reais de Brasília), que entra com um fade quando o primeiro quadro fica
+ * pronto. A cena vem do domínio do jogo (outro processo, onde o navegador isola sites) e é montada em etapas
+ * curtas: não trava esta página.
  */
 export function LiveScene({ scene, href }: { scene: Content["hero"]["game"]["scene"]; href: string }) {
   const { phase } = useGame();
@@ -105,24 +111,19 @@ export function LiveScene({ scene, href }: { scene: Content["hero"]["game"]["sce
   }, [live]);
 
   return (
-    <div ref={box} className="absolute inset-0">
+    <div
+      ref={box}
+      className="relative h-[min(100vw,62vh)] w-full shrink-0 overflow-hidden landscape:h-[min(56vw,85vh)] lg:absolute lg:inset-0 lg:h-auto lg:landscape:h-auto"
+    >
       <div aria-hidden className="pointer-events-none absolute inset-0">
         {phase && (
-          <Image
-            src={POSTERS[phase]}
-            alt=""
-            fill
-            sizes="100vw"
-            loading="eager"
-            fetchPriority="high"
+          <PosterPicture
+            poster={POSTERS[phase]}
+            loaded={posterLoaded}
             onLoad={() => {
               setPosterLoaded(true);
               announcePoster();
             }}
-            className={cx(
-              "object-cover object-[72%_center] transition-opacity duration-700",
-              posterLoaded ? "opacity-100" : "opacity-0",
-            )}
           />
         )}
         {mountFrame && (
@@ -138,22 +139,44 @@ export function LiveScene({ scene, href }: { scene: Content["hero"]["game"]["sce
             )}
           />
         )}
-        {/* Legibilidade: escurece à esquerda (texto) e embaixo; no celular, por igual. */}
-        <div className="absolute inset-0 max-lg:bg-surface-container-lowest/70 lg:bg-linear-to-r lg:from-surface-container-lowest/90 lg:via-surface-container-lowest/45 lg:via-40% lg:to-transparent lg:to-60%" />
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-linear-to-t from-surface-container-lowest/80 to-transparent" />
+        {/* Desktop: escurece à esquerda (texto) e embaixo. Celular: o quadro se funde no fundo embaixo. */}
+        <div className="absolute inset-0 hidden bg-linear-to-r from-surface-container-lowest/90 via-surface-container-lowest/45 via-40% to-transparent to-60% lg:block" />
+        <div className="absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-surface-container-lowest to-transparent lg:h-40 lg:from-surface-container-lowest/80" />
       </div>
 
       <a
         href={href}
-        className="absolute right-4 bottom-16 z-10 hidden items-center gap-space-xs border-2 border-surface-container-lowest bg-surface-container-lowest/85 px-space-sm py-1.5 text-label-sm tracking-widest text-on-surface uppercase backdrop-blur-sm voxel-slot-inset hover:text-primary sm:flex lg:right-8"
+        className="absolute bottom-4 left-4 z-10 flex max-w-[calc(100%-2rem)] items-center gap-space-xs border-2 border-surface-container-lowest bg-surface-container-lowest/85 px-space-sm py-1.5 text-label-sm tracking-widest text-on-surface uppercase backdrop-blur-sm voxel-slot-inset hover:text-primary lg:right-8 lg:bottom-16 lg:left-auto"
       >
-        <span aria-hidden className="relative flex size-2">
+        <span aria-hidden className="relative flex size-2 shrink-0">
           {live && <span className="absolute inline-flex size-full animate-ping bg-error opacity-75" />}
           <span className={cx("relative inline-flex size-2", live ? "bg-error" : "bg-outline")} />
         </span>
-        <span className="font-bold">{live ? scene.live : scene.still}</span>
-        <span className="text-outline">· {scene.caption}</span>
+        <span className="shrink-0 font-bold">{live ? scene.live : scene.still}</span>
+        <span className="truncate text-outline">· {scene.caption}</span>
       </a>
     </div>
+  );
+}
+
+/** Imagem estática com "art direction": paisagem no desktop (ou celular deitado), retrato no celular em pé. */
+function PosterPicture({ poster, loaded, onLoad }: { poster: Poster; loaded: boolean; onLoad: () => void }) {
+  const common = { alt: "", fill: true, sizes: "100vw", loading: "eager", fetchPriority: "high" } as const;
+  const { srcSet: landscape } = getImageProps({ ...common, src: poster.landscape }).props;
+  const { srcSet: portrait, ...img } = getImageProps({ ...common, src: poster.portrait }).props;
+  return (
+    <picture>
+      <source media={LANDSCAPE_MEDIA} srcSet={landscape} />
+      <source srcSet={portrait} />
+      <img
+        {...img}
+        alt=""
+        onLoad={onLoad}
+        className={cx(
+          "object-cover transition-opacity duration-700 lg:object-[72%_center]",
+          loaded ? "opacity-100" : "opacity-0",
+        )}
+      />
+    </picture>
   );
 }

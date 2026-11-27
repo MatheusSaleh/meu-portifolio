@@ -185,6 +185,7 @@ export function buildPt(stats: GithubStats): Content {
       start: "Entrar",
       skip: "Pular",
       pressKey: "Pressione qualquer tecla",
+      tapToEnter: "Toque para entrar",
       background: "continua em segundo plano",
       tipLabel: "Dica",
       tasks: {

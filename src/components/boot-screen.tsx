@@ -21,8 +21,8 @@ const LIVE_CAP_MS = 9000;
 const HARD_CAP_MS = 11000;
 /** Depois de pronto, entra sozinho se o visitante não apertar nada. */
 const AUTO_ENTER_MS = 1800;
-/** A geração da cidade não informa progresso: a barra avança sozinha até ~90% em uns 6 s. */
-const CITY_EXPECTED_MS = 6000;
+/** A geração da cidade não informa progresso: a barra avança sozinha até ~90% em uns 2,5 s. */
+const CITY_EXPECTED_MS = 2500;
 
 /** A animação de segurança do CSS esconde a tela 14 s após abrir a página; hidratar depois disso = desistir dela. */
 const LATE_HYDRATION_MS = 13000;
@@ -237,7 +237,8 @@ export function BootScreen({ boot }: { boot: Content["boot"] }) {
         }}
         className="absolute top-4 right-4 z-10 border-2 border-surface-container-highest bg-surface-container px-space-sm py-1 text-label-sm font-bold tracking-widest text-outline uppercase voxel-btn-bevel hover:text-on-surface md:top-6 md:right-6"
       >
-        {boot.skip} · Esc
+        {boot.skip}
+        <span className="pointer-coarse:hidden"> · Esc</span>
       </button>
 
       <div className="relative z-10 mx-auto flex w-full max-w-xl flex-1 flex-col items-center justify-center gap-space-lg px-margin">
@@ -336,7 +337,8 @@ export function BootScreen({ boot }: { boot: Content["boot"] }) {
               ▶ {boot.start}
             </button>
             <span aria-hidden className="text-label-sm tracking-[0.3em] text-secondary-fixed uppercase motion-safe:animate-press-start">
-              {boot.pressKey}
+              <span className="pointer-coarse:hidden">{boot.pressKey}</span>
+              <span className="hidden pointer-coarse:inline">{boot.tapToEnter}</span>
             </span>
           </div>
         )}
