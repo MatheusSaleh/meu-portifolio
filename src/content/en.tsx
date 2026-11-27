@@ -184,6 +184,7 @@ export function buildEn(stats: GithubStats): Content {
       start: "Enter",
       skip: "Skip",
       pressKey: "Press any key",
+      tapToEnter: "Tap to enter",
       background: "continues in the background",
       tipLabel: "Tip",
       tasks: {

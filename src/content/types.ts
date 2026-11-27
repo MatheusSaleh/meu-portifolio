@@ -244,6 +244,8 @@ export type Content = {
     start: string;
     skip: string;
     pressKey: string;
+    /** No lugar de pressKey em telas de toque. */
+    tapToEnter: string;
     /** Etapa da cena 3D que passou do limite de espera e segue carregando atrás. */
     background: string;
     tipLabel: string;
