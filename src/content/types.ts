@@ -218,7 +218,23 @@ export type GithubStats = {
   publicRepos: number;
   topLanguages: string[];
   memberSince: number;
+  /** Mais recentes primeiro; vazio se a API falhar. */
+  recentCommits: GithubCommit[];
+  /** Números do painel da parede da cena do topo; null se alguma consulta falhar. */
+  activity: GithubActivity | null;
 };
+
+/** Atividade pública no GitHub: totais, commits por ano (do mais antigo ao atual) e fatia (%) de cada linguagem. */
+export type GithubActivity = {
+  commits: number;
+  pullRequests: number;
+  issues: number;
+  commitsByYear: Array<{ year: number; count: number }>;
+  languages: Array<{ name: string; share: number }>;
+};
+
+/** Commit público: repositório, primeira linha da mensagem e data (ISO). */
+export type GithubCommit = { repo: string; message: string; date: string };
 
 export type Content = {
   locale: Locale;
@@ -271,7 +287,16 @@ export type Content = {
       cta: string;
       meta: string;
       /** Cena ao vivo do jogo no fundo do Spawn (ver components/hero/live-scene.tsx). */
-      scene: { title: string; live: string; still: string; caption: string };
+      scene: {
+        title: string;
+        live: string;
+        still: string;
+        caption: string;
+        /** Commits públicos mais recentes, mostrados no telão da cena ("O que estou codando agora"). */
+        commits: GithubCommit[];
+        /** Painel da parede da cena: PRs, issues, commits por ano e linguagens. */
+        activity: GithubActivity | null;
+      };
     };
   };
   journey: {

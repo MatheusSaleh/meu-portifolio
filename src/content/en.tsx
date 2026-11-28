@@ -294,6 +294,8 @@ export function buildEn(stats: GithubStats): Content {
           live: "Live",
           still: "Game scene",
           caption: "Supremo Motorista · Brasília now",
+          commits: stats.recentCommits,
+          activity: stats.activity,
         },
       },
     },
