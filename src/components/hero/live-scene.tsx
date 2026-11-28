@@ -1,7 +1,7 @@
 "use client";
 
 import { getImageProps, type StaticImageData } from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import diaRetrato from "@/assets/hero/vitrine-dia-retrato.jpg";
 import dia from "@/assets/hero/vitrine-dia.jpg";
 import entardecerRetrato from "@/assets/hero/vitrine-entardecer-retrato.jpg";
@@ -12,6 +12,7 @@ import type { Content } from "@/content/types";
 import { gameOrigin, vitrineUrl } from "@/content/supremo-motorista";
 import type { DayPhase } from "@/lib/day-phase";
 import { cx } from "@/lib/cx";
+import { sendToVitrine, VITRINE_EVENT, WAVE_ATTRIBUTE, type VitrineCommand } from "@/lib/vitrine-bus";
 import { useGame } from "../game-provider";
 
 /**
@@ -61,6 +62,11 @@ export function LiveScene({ scene, href }: { scene: Content["hero"]["game"]["sce
   const [mountFrame, setMountFrame] = useState(false);
   const [live, setLive] = useState(false);
   const [posterLoaded, setPosterLoaded] = useState(false);
+  const [bootDone, setBootDone] = useState(false);
+  const liveRef = useRef(false);
+  /** Pedidos feitos antes de a cena ficar pronta (o último de cada tipo), enviados quando ela fica. */
+  const pending = useRef<{ project?: VitrineCommand; reaction?: VitrineCommand }>({});
+  const arrived = useRef(false);
 
   // Com a tela de carregamento ativa, a cena começa já (o progresso dela aparece lá). Sem ela (visita repetida na
   // sessão), só depois do carregamento da página e com o navegador ocioso.
@@ -110,6 +116,80 @@ export function LiveScene({ scene, href }: { scene: Content["hero"]["game"]["sce
     return () => observer.disconnect();
   }, [live]);
 
+  // Repassa um pedido ao iframe (formato que a vitrine valida; ver Showcase.onCommand no repositório do jogo).
+  const post = useCallback((command: VitrineCommand) => {
+    const target = frame.current?.contentWindow;
+    if (!target) return;
+    const message =
+      command.action === "project"
+        ? {
+            type: "supremo-vitrine:project",
+            name: command.name,
+            caption: command.caption,
+            techs: command.techs,
+            locale: document.documentElement.lang.startsWith("en") ? "en" : "pt",
+          }
+        : { type: "supremo-vitrine:react", action: command.action };
+    target.postMessage(message, gameOrigin);
+  }, []);
+
+  // Pedidos do resto do portfólio (lib/vitrine-bus) e aceno quando o mouse passa ou o foco chega num elemento
+  // marcado (um a cada 6 s, para não repetir enquanto a pessoa mexe o mouse).
+  useEffect(() => {
+    let lastWave = -Infinity;
+    const onCommand = (event: Event) => {
+      const command = (event as CustomEvent<VitrineCommand>).detail;
+      if (liveRef.current) post(command);
+      else pending.current[command.action === "project" ? "project" : "reaction"] = command;
+    };
+    const onHover = (event: Event) => {
+      if (!(event.target instanceof Element) || !event.target.closest(`[${WAVE_ATTRIBUTE}]`)) return;
+      const now = performance.now();
+      if (now - lastWave < 6000) return;
+      lastWave = now;
+      sendToVitrine({ action: "wave" });
+    };
+    window.addEventListener(VITRINE_EVENT, onCommand);
+    document.addEventListener("pointerover", onHover);
+    document.addEventListener("focusin", onHover);
+    return () => {
+      window.removeEventListener(VITRINE_EVENT, onCommand);
+      document.removeEventListener("pointerover", onHover);
+      document.removeEventListener("focusin", onHover);
+    };
+  }, [post]);
+
+  // Pronta: envia o que ficou guardado.
+  useEffect(() => {
+    liveRef.current = live;
+    if (!live) return;
+    const { project, reaction } = pending.current;
+    pending.current = {};
+    if (project) post(project);
+    if (reaction) post(reaction);
+  }, [live, post]);
+
+  // A tela de carregamento saiu (ou nem apareceu): é quando o visitante passa a ver a cena.
+  useEffect(() => {
+    if (document.documentElement.dataset.boot !== "active") {
+      const id = requestAnimationFrame(() => setBootDone(true));
+      return () => cancelAnimationFrame(id);
+    }
+    const onDone = () => setBootDone(true);
+    window.addEventListener("portfolio:boot-done", onDone, { once: true });
+    return () => window.removeEventListener("portfolio:boot-done", onDone);
+  }, []);
+
+  // Entrada: com a cena pronta e à vista, Josué (que começa fora da sala) entra caminhando e senta à mesa.
+  useEffect(() => {
+    if (!live || !bootDone || arrived.current) return;
+    const id = window.setTimeout(() => {
+      arrived.current = true;
+      sendToVitrine({ action: "arrive" });
+    }, 200);
+    return () => clearTimeout(id);
+  }, [live, bootDone]);
+
   return (
     <div
       ref={box}
@@ -129,7 +209,7 @@ export function LiveScene({ scene, href }: { scene: Content["hero"]["game"]["sce
         {mountFrame && (
           <iframe
             ref={frame}
-            src={vitrineUrl}
+            src={`${vitrineUrl}?intro`}
             title={scene.title}
             tabIndex={-1}
             sandbox="allow-scripts allow-same-origin"

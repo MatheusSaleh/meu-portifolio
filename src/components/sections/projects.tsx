@@ -5,6 +5,7 @@ import { useState } from "react";
 import type { Content, Project, ProjectCategory } from "@/content/types";
 import { cx } from "@/lib/cx";
 import { pageGutter } from "@/lib/layout";
+import { sendToVitrine } from "@/lib/vitrine-bus";
 import { useGame } from "../game-provider";
 import { Icon } from "../icon";
 import { ProjectModal } from "../project-modal";
@@ -71,6 +72,8 @@ export function ProjectsSection({ projects }: Pick<Content, "projects">) {
                 playSlot(3);
                 setOpenProject(project);
                 inspectProject(project.id, items.length);
+                // O monitor da cena do topo passa a mostrar o projeto aberto.
+                sendToVitrine({ action: "project", name: project.name, caption: project.caption, techs: project.details.techs });
               }}
             />
           </li>

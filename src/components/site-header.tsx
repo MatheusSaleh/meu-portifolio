@@ -92,6 +92,7 @@ export function SiteHeader({ nav, header, languageSwitch, resume, homeHref = "",
                 href={href ?? `${homeHref}#${id}`}
                 aria-current={active ? (href ? "page" : "location") : undefined}
                 onClick={() => selectSlot(slot)}
+                data-vitrine-wave={id === "contato" ? "" : undefined}
                 className={cx(
                   "relative flex h-12 items-center justify-center px-3 text-label-md uppercase transition-none active:translate-y-0.5",
                   active
@@ -182,6 +183,7 @@ export function SiteHeader({ nav, header, languageSwitch, resume, homeHref = "",
                       href={href ?? `${homeHref}#${id}`}
                       aria-current={active ? (href ? "page" : "location") : undefined}
                       onClick={() => selectSlot(slot)}
+                      data-vitrine-wave={id === "contato" ? "" : undefined}
                       className={cx(
                         "relative flex h-14 items-center justify-center px-2 text-label-md uppercase",
                         active
