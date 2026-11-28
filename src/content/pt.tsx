@@ -295,6 +295,8 @@ export function buildPt(stats: GithubStats): Content {
           live: "Ao vivo",
           still: "Cena do jogo",
           caption: "Supremo Motorista · Brasília agora",
+          commits: stats.recentCommits,
+          activity: stats.activity,
         },
       },
     },

@@ -169,6 +169,35 @@ export function LiveScene({ scene, href }: { scene: Content["hero"]["game"]["sce
     if (reaction) post(reaction);
   }, [live, post]);
 
+  // "O que estou codando agora": o telão passa a mostrar os commits públicos mais recentes. A cena calcula
+  // o "há quanto tempo" (o HTML é gerado de hora em hora; a idade precisa ser a do momento da visita).
+  const commits = scene.commits;
+  useEffect(() => {
+    if (!live || commits.length === 0) return;
+    frame.current?.contentWindow?.postMessage(
+      {
+        type: "supremo-vitrine:commits",
+        commits,
+        locale: document.documentElement.lang.startsWith("en") ? "en" : "pt",
+      },
+      gameOrigin,
+    );
+  }, [live, commits]);
+
+  // Painel da parede: pull requests, issues, commits por ano e linguagens mais usadas.
+  const activity = scene.activity;
+  useEffect(() => {
+    if (!live || !activity) return;
+    frame.current?.contentWindow?.postMessage(
+      {
+        type: "supremo-vitrine:github",
+        stats: activity,
+        locale: document.documentElement.lang.startsWith("en") ? "en" : "pt",
+      },
+      gameOrigin,
+    );
+  }, [live, activity]);
+
   // A tela de carregamento saiu (ou nem apareceu): é quando o visitante passa a ver a cena.
   useEffect(() => {
     if (document.documentElement.dataset.boot !== "active") {
