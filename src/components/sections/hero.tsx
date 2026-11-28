@@ -101,6 +101,7 @@ export function HeroSection({ hero, resume }: Pick<Content, "hero" | "resume">) 
             </a>
             <a
               href={profile.github}
+              data-vitrine-wave=""
               target="_blank"
               rel="noreferrer"
               className={cx(ctaBase, "bg-surface-container-low text-on-surface voxel-btn-bevel hover:text-primary")}
@@ -110,6 +111,7 @@ export function HeroSection({ hero, resume }: Pick<Content, "hero" | "resume">) 
             </a>
             <a
               href={profile.linkedin}
+              data-vitrine-wave=""
               target="_blank"
               rel="noreferrer"
               className={cx(ctaBase, "bg-surface-container-low text-on-surface voxel-btn-bevel hover:text-secondary")}

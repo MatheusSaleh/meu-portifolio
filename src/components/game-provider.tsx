@@ -4,6 +4,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import type { ExplorationId, GameStrings } from "@/content/types";
 import { getDayPhase, type DayPhase } from "@/lib/day-phase";
 import { playSlotSound, playToggleSound } from "@/lib/sfx";
+import { sendToVitrine } from "@/lib/vitrine-bus";
 import { AdvancementToast } from "./advancement-toast";
 
 const TOAST_DURATION_MS = 4200;
@@ -110,6 +111,7 @@ export function GameProvider({ strings, children }: { strings: GameStrings; chil
       const achievement = strings.exploration.find((item) => item.id === id);
       if (achievement) notify(achievement.title, achievement.description);
       if (sfxEnabled) playToggleSound(true);
+      sendToVitrine({ action: "cheer" }); // Josué comemora na cena do topo
     },
     [strings.exploration, notify, sfxEnabled],
   );

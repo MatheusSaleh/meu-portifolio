@@ -204,6 +204,7 @@ export function BootScreen({ boot }: { boot: Content["boot"] }) {
       // Sem sessionStorage: só aparece de novo no próximo carregamento.
     }
     document.documentElement.style.overflow = "";
+    window.dispatchEvent(new Event("portfolio:boot-done")); // a cena do topo já pode cumprimentar
     const id = window.setTimeout(() => {
       document.documentElement.dataset.boot = "done";
       setPhase("gone");
